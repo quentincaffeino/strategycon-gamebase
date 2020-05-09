@@ -30,6 +30,7 @@ deploy:
     - tree -h ./public
 
     # Push build to prod
+    - git ftp init
     - git ftp push --syncroot public/ --user "$GIT_FTP_USERNAME" --passwd "$GIT_FTP_PASSWORD" "$GIT_FTP_URL"
 
   artifacts:
