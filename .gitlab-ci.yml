@@ -1,0 +1,40 @@
+image: node:lts
+
+cache:
+  paths:
+    - node_modules/
+
+deploy:
+  stage: deploy
+  script:
+    # Install prereqs
+    - apt-get update
+    - apt-get install -yqq make git tree
+    # Clean apt cache
+    - apt-get clean
+    - rm -rf /var/lib/apt/lists/*
+
+    # Install git-ftp
+    - git clone https://github.com/git-ftp/git-ftp.git
+    - cd git-ftp
+    # choose the newest release
+    - tag="$(git tag | grep '^[0-9]*\.[0-9]*\.[0-9]*$' | tail -1)"
+    # checkout the latest tag
+    - git checkout "$tag"
+    - make install
+    - cd ..
+
+    # Build project
+    - yarn
+    - yarn build
+    - tree -h ./public
+
+    # Push build to prod
+    - git ftp push --syncroot public/ --user "$GIT_FTP_USERNAME" --passwd "$GIT_FTP_PASSWORD" "$GIT_FTP_URL"
+
+  artifacts:
+    paths:
+      - public
+
+  only:
+    - master
