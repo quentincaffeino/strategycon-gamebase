@@ -1,4 +1,4 @@
-image: node:lts
+image: node:lts-alpine
 
 cache:
   paths:
@@ -8,19 +8,17 @@ deploy:
   stage: deploy
   script:
     # Install prereqs
-    - apt-get update
-    - apt-get install -yqq make git tree wput
-    # Clean apt cache
-    - apt-get clean
-    - rm -rf /var/lib/apt/lists/*
+    - apk --no-cache add tree
+    - apk --no-cache add wput --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
 
     # Build project
     - yarn
     - yarn build
+    - rm ./public/visualizer.html
     - tree -h ./public
 
     # Push build to prod
-    - wput --quiet --reupload --basename=public/ public/* "$GIT_FTP_URL"
+    - wput --less-verbose --reupload --dont-continue --basename=public/ public/* "$GIT_FTP_URL"
 
   artifacts:
     paths:
