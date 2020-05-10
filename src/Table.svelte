@@ -4,7 +4,13 @@
 
   import { gridOptions } from "./gridOptions";
   import { importExcel } from "./utils/importExcel";
+  import { localStorageTest } from "./utils/localStorageTest";
   import { workbookParser } from "./utils/workbookParser";
+
+  const warningKey = "games-table-dissmissed-warning";
+  let isWarningShown = !(
+    localStorageTest() && localStorage.getItem(warningKey)
+  );
 
   let gridElement = null;
   let grid = null;
@@ -14,6 +20,11 @@
     if (grid) {
       grid.gridOptions.api.setQuickFilter(searchBoxValue);
     }
+  }
+
+  function handleCloseWarningButtonClick() {
+    isWarningShown = false;
+    localStorageTest() && localStorage.setItem(warningKey, true);
   }
 
   onMount(() => {
@@ -41,20 +52,36 @@
     flex-direction: column;
   }
 
-  .data-grid-search {
+  .data-grid-header {
     display: flex;
-    padding: 0.25rem;
+    flex-direction: row;
   }
-  .data-grid-search input {
+  .data-grid-header img {
+    width: 50px;
+  }
+  .data-grid-header input {
     flex-grow: 1;
-    padding: 0.5rem;
-    border-radius: 0.5rem;
+    padding: 1rem;
+    border: none;
+    border-bottom: 1px solid hsla(0, 0%, 90%, 1);
+  }
+
+  .data-grid-warning {
+    display: flex;
+    flex-direction: row;
+    line-height: 50px;
+  }
+  .data-grid-warning-message {
+    flex-grow: 1;
+    padding: 0 1rem;
+  }
+  .data-grid-warning-button {
+    width: 50px;
   }
 
   .data-grid {
     flex-grow: 1;
   }
-
   :global(.ag-cell) {
     white-space: normal !important;
     line-height: 20px !important;
@@ -63,9 +90,28 @@
 </style>
 
 <div class="data-grid-wrapper">
-  <div class="data-grid-search">
+  <div class="data-grid-header">
+    <img
+      src="https://strategycon.ru/wp-content/uploads/2019/09/cropped-ava-1-192x192.png"
+      alt="Стратегикон" />
+
+    <!-- <div class="data-grid-search"> -->
     <input type="text" placeholder="Поиск..." bind:value={searchBoxValue} />
+    <!-- </div> -->
   </div>
+
+  {#if isWarningShown}
+    <div class="data-grid-warning">
+      <div class="data-grid-warning-message">
+        Таблица находится в разработке
+      </div>
+      <input
+        type="button"
+        class="data-grid-warning-button"
+        value="&times;"
+        on:click={handleCloseWarningButtonClick} />
+    </div>
+  {/if}
 
   <div bind:this={gridElement} class="data-grid ag-theme-alpine" />
 </div>

@@ -22,7 +22,7 @@
 </style>
 
 <div class="app-wrapper">
-  <div class="title">
+  <!-- <div class="title">
     <a href="https://strategycon.ru">
       <img
         src="https://strategycon.ru/wp-content/uploads/2019/09/logo_site_amp_6.png"
@@ -32,7 +32,7 @@
     <p>Таблица находится в разработке</p>
   </div>
 
-  <div class="table">
+  <div class="table"> -->
     <Table />
-  </div>
+  <!-- </div> -->
 </div>
