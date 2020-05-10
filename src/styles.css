@@ -27,3 +27,11 @@ svg {
 .ag-theme-alpine .ag-root-wrapper {
   border-radius: 0;
 }
+
+.ag-cell a {
+  text-decoration: none; color: black;
+  } 
+
+.ag-cell a:hover {
+  color: #b18904;
+  }
