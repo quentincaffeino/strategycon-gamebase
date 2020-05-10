@@ -1,4 +1,5 @@
 {
+  "main": "src/main.js",
   "name": "svelte-app",
   "version": "1.0.0",
   "scripts": {
