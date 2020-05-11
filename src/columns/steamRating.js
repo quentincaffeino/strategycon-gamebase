@@ -39,6 +39,10 @@ function getQuickFilterText(params) {
   }
 }
 
+/**
+ * @param {ICellRendererParams} params
+ * @returns {any}
+ */
 function cellRenderer(params) {
   const el = params.eGridCell
   const rating = getValue(params)

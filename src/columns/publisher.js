@@ -1,4 +1,8 @@
 
+/**
+ * @param {ICellRendererParams} params
+ * @returns {any}
+ */
 function cellRenderer(params) {
   const name = params.value
   const link = params.data.publisher_link
