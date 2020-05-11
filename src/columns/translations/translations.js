@@ -8,6 +8,14 @@ import TranslationsTemplate from './translations.svelte';
  * @param {ValueGetterParams} params
  * @returns {Object}
  */
+function getQuickFilterText(params) {
+  return params.data.translations;
+}
+
+/**
+ * @param {ValueGetterParams} params
+ * @returns {Object}
+ */
 function valueGetter(params) {
   const translationsStr = params.data.translations || ''
   const translations = translationsStr
@@ -24,6 +32,7 @@ export const field = {
   headerName: "Языки",
   // filter: PersonFilter,
   // floatingFilterComponent: 'customNumberFloatingFilter',
+  getQuickFilterText,
   valueGetter,
   cellRenderer: svelteCellRenderer.bind(undefined, TranslationsTemplate)
 }
