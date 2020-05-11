@@ -16,12 +16,18 @@ function valueGetter(params) {
   }
 }
 
+/**
+ * @param {ValueGetterParams} params
+ * @returns {Object}
+ */
+function getQuickFilterText(params) {
+  return params.data.name
+}
+
 export const field = {
   headerName: "Игра",
   // filter: "agTextColumnFilter",
-  getQuickFilterText(params) {
-    return params.data.name
-  },
+  getQuickFilterText,
   valueGetter,
   cellRenderer: svelteCellRenderer.bind(undefined, NameTemplate)
 }
