@@ -19,11 +19,23 @@ function getRatingColor(rating) {
 }
 
 function transformRating(rating) {
+  const text = Math.round(rating) + '%'
   const color = getRatingColor(rating)
 
   return {
-    text: '<div class="steam-rating">' + Math.round(rating) + '% ' + feather.icons['thumbs-up'].toSvg({ color: 'green' }) + '</div>',
-    color
+    text,
+    color,
+    html: '<div class="steam-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color: 'green' }) + '</div>',
+  }
+}
+
+/**
+ * @param {ValueGetterParams} params
+ * @returns {Object}
+ */
+function getQuickFilterText(params) {
+  if (params.value) {
+    return params.value.text;
   }
 }
 
@@ -34,12 +46,13 @@ function cellRenderer(params) {
 
   if (gameId) {
     if (rating) {
-      applyRating(el, transformRating(rating))
+      applyRating(el, rating)
     } else {
       steamRatingProvider.get(gameId)
         .then(rating => {
-          params.setValue(Math.round(rating))
-          applyRating(el, transformRating(rating))
+          rating = transformRating(rating)
+          params.setValue(rating)
+          applyRating(el, rating)
         })
         .catch(() => {
           el.innerText = noDataText
@@ -53,5 +66,6 @@ function cellRenderer(params) {
 export const field = {
   field: "steam_rating",
   headerName: "Steam",
+  getQuickFilterText,
   cellRenderer
 }
