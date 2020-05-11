@@ -18,7 +18,10 @@ function valueGetter(params) {
 
 export const field = {
   headerName: "Игра",
-  filter: "agTextColumnFilter",
+  // filter: "agTextColumnFilter",
+  getQuickFilterText(params) {
+    return params.data.name
+  },
   valueGetter,
   cellRenderer: svelteCellRenderer.bind(undefined, NameTemplate)
 }
