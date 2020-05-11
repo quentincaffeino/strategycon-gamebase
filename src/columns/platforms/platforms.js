@@ -1,47 +1,122 @@
 
-import windowsIcon from 'simple-icons/icons/windows';
-import linuxIcon from 'simple-icons/icons/linux';
-import appleIcon from 'simple-icons/icons/apple';
-import xboxIcon from 'simple-icons/icons/xbox';
-import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch';
+import windowsIcon from 'simple-icons/icons/windows'
+import linuxIcon from 'simple-icons/icons/linux'
+import appleIcon from 'simple-icons/icons/apple'
+import xboxIcon from 'simple-icons/icons/xbox'
+import playstation4Icon from 'simple-icons/icons/playstation4'
+import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch'
 
 import { getValue } from '../../utils/getValue'
 import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
 
 
 const platformsConfig = {
-  'windows': windowsIcon,
-  'linux': {
-    ...linuxIcon,
-    hex: '000'
+  'windows': {
+    icon: windowsIcon,
+    aliases: [
+      'microsoft'
+    ]
   },
-  'mac os': appleIcon,
-  'xbox one': xboxIcon,
-  'nintendo switch': nintendoSwitchIcon,
+  'linux': {
+    icon: {
+      ...linuxIcon,
+      hex: '000'
+    },
+    aliases: [
+    ]
+  },
+  'mac os': {
+    icon: appleIcon,
+    aliases: [
+      'osx'
+    ]
+  },
+  'xbox one': {
+    icon: xboxIcon,
+    aliases: [
+    ]
+  },
+  'playstation 4': {
+    icon: playstation4Icon,
+    aliases: [
+      'ps',
+      'ps4'
+    ]
+  },
+  'nintendo switch': {
+    icon: nintendoSwitchIcon,
+    aliases: [
+    ]
+  },
 }
 
 
+/**
+ * @param {string} platform
+ */
+function getAliasesFor(platform) {
+  let aliases = [
+    platform.replace(' ', '')
+  ]
+
+  if (platform in platformsConfig) {
+    const platformConfig = platformsConfig[platform]
+    if ('aliases' in platformConfig) {
+      aliases = aliases.concat(platformConfig.aliases)
+    }
+  }
+
+  return aliases
+}
+
+/**
+ * @param {string} platform 
+ */
 function renderPlatformIcon(platform) {
-  const platformIcon = createElementFromHTMLString(platformsConfig[platform].svg)
-  platformIcon.setAttribute('fill', '#' + platformsConfig[platform].hex)
-  return platformIcon
+  if (platform in platformsConfig) {
+    const platformIcon = createElementFromHTMLString(platformsConfig[platform].icon.svg)
+    platformIcon.setAttribute('fill', '#' + platformsConfig[platform].icon.hex)
+    return platformIcon
+  }
 }
 
+/**
+ * @param {ValueGetterParams} params
+ * @returns {Object}
+ */
+function getQuickFilterText(params) {
+  // TODO: think about enabling cache cause this is a very expencive operation which ran at each quick search update
+  const platforms = getValue(params)
+  if (platforms) {
+    return platforms.join('')
+  }
+}
 
+/**
+ * @param {ValueGetterParams} params
+ * @returns {Object}
+ */
+function valueGetter(params) {
+  const platformsStr = params.data.platforms || ''
+  let platforms = platformsStr.split(',').map(str => str.toLowerCase().trim())
+  for (const platform of platforms) {
+    platforms = platforms.concat(getAliasesFor(platform))
+  }
+  return Array.from(new Set(platforms))
+}
+
+/**
+ * @param {ICellRendererParams} params
+ * @returns {any}
+ */
 function cellRenderer(params) {
-  const platformsStr = getValue(params)
-  const el = params.eGridCell;
+  const platforms = getValue(params)
+  const el = params.eGridCell
 
-  if (platformsStr) {
-    // splitting should be moved to a lower level (prob. value getter)
-    const platforms = platformsStr.split(',').map(str => str.toLowerCase().trim())
-
-    if (platforms.length) {
-      for (const platform of platforms) {
-        if (platform in platformsConfig) {
-          el.appendChild(renderPlatformIcon(platform))
-        }
-      }
+  if (platforms.length) {
+    for (const platform of platforms) {
+      const icon = renderPlatformIcon(platform)
+      if (icon) el.appendChild(icon)
     }
   }
 }
@@ -49,5 +124,7 @@ function cellRenderer(params) {
 export const field = {
   field: "platforms",
   headerName: "Платформы",
+  getQuickFilterText,
+  valueGetter,
   cellRenderer
 }
