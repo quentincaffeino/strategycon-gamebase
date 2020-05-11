@@ -1,7 +1,9 @@
 
 import { svelteCellRenderer } from '../../utils/svelteCellRenderer'
+import { getValue } from '../../utils/getValue'
 
 import TranslationsTemplate from './translations.svelte';
+import { getLanguageFor } from './languages.js';
 
 
 /**
@@ -9,7 +11,8 @@ import TranslationsTemplate from './translations.svelte';
  * @returns {Object}
  */
 function getQuickFilterText(params) {
-  return params.data.translations;
+  const { translations } = getValue(params)
+  return params.data.translations + translations.map(getLanguageFor).join('');
 }
 
 /**
