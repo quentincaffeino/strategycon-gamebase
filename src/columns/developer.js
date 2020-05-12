@@ -1,10 +1,14 @@
 
+import { defaultValueFormatter as valueFormatter } from '../utils/defaultValueFormatter'
+import { getFormattedValue } from '../utils/getValue'
+
+
 /**
  * @param {ICellRendererParams} params
  * @returns {any}
  */
 function cellRenderer(params) {
-  const name = params.value
+  const name = getFormattedValue(params)
   const link = params.data.developer_link
   if (link) {
     return '<a href="' + link + '" rel="noopener noreferrer" target="_blank">' + name + "</a>"
@@ -16,5 +20,6 @@ function cellRenderer(params) {
 export const field = {
   field: "developer",
   headerName: "Разработчик",
+  valueFormatter,
   cellRenderer
 }

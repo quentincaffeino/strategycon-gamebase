@@ -6,7 +6,7 @@ import { applyRating } from '../utils/applyRating'
 import * as steamRatingProvider from "../utils/steamRatingProvider"
 
 
-const noDataText = 'Нет данных'
+const noDataText = '—'
 
 function getRatingColor(rating) {
   if (rating < 40.0) {

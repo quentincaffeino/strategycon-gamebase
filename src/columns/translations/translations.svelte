@@ -6,6 +6,10 @@
   const more = translations.length - visibleTranslations.length;
 
   let showAll = more <= 0;
+
+  function handleToggleExpandClick() {
+    showAll = !showAll;
+  }
 </script>
 
 <style>
@@ -32,28 +36,30 @@
   }
 </style>
 
-{#if showAll}
-  {#each translations as translation}
-    <div class="badge">{translation}</div>
-    &MediumSpace;
-  {/each}
+{#if translations.length > 0}
+  {#if showAll}
+    {#each translations as translation}
+      <div class="badge">{translation}</div>
+      &MediumSpace;
+    {/each}
 
-  {#if more > 0}
+    {#if more > 0}
+      <input
+        type="button"
+        class="badge button button-less"
+        value="-"
+        on:click|stopPropagation={handleToggleExpandClick} />
+    {/if}
+  {:else}
+    {#each visibleTranslations as translation}
+      <div class="badge">{translation}</div>
+      &MediumSpace;
+    {/each}
+
     <input
       type="button"
-      class="badge button button-less"
-      value="-"
-      on:click={() => (showAll = !showAll)} />
+      class="badge button button-more"
+      value="+{more}"
+      on:click|stopPropagation={handleToggleExpandClick} />
   {/if}
-{:else}
-  {#each visibleTranslations as translation}
-    <div class="badge">{translation}</div>
-    &MediumSpace;
-  {/each}
-
-  <input
-    type="button"
-    class="badge button button-more"
-    value="+{more}"
-    on:click={() => (showAll = !showAll)} />
-{/if}
+{:else}&mdash;{/if}

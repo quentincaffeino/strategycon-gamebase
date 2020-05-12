@@ -49,7 +49,7 @@ function cellRenderer(params) {
       return '<span style="color:' + color + '">' + text + "</span>"
     }
   } else {
-    return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки обозревателя</a>'
+    return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки</a>'
   }
 }
 

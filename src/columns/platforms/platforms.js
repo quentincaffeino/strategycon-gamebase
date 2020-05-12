@@ -125,6 +125,8 @@ function cellRenderer(params) {
       const icon = renderPlatformIcon(platform)
       if (icon) el.appendChild(icon)
     }
+  } else {
+    return '—'
   }
 }
 
