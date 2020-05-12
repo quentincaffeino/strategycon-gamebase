@@ -39,7 +39,7 @@ function cellRenderer(params) {
       return (
         '<a href="' +
         link +
-        '" target="_blank" style="color:' +
+        '" target="_blank" rel="noopener noreferrer" style="color:' +
         color +
         '">' +
         text +
@@ -49,7 +49,7 @@ function cellRenderer(params) {
       return '<span style="color:' + color + '">' + text + "</span>"
     }
   } else {
-    return '<a href="https://strategycon.ru/no-review/" target="_blank">Нет оценки обозревателя</a>'
+    return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки обозревателя</a>'
   }
 }
 

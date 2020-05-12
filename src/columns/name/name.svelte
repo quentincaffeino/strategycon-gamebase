@@ -1,6 +1,15 @@
 <script>
+  /**
+   * @type {string}
+   */
   export let name;
+  /**
+   * @type {URL|null}
+   */
   export let link;
+  /**
+   * @type {string}
+   */
   export let image;
 </script>
 
@@ -15,5 +24,5 @@
 {/if}
 
 {#if link}
-  <a href={link} target="_blank">{name}</a>
+  <a href={link} rel="noopener noreferrer" target="_blank">{name}</a>
 {:else}{name}{/if}
