@@ -19,10 +19,16 @@
   }
 </style>
 
-{#if image}
-  <img src={image} alt="{name} game image" />
-{/if}
-
 {#if link}
-  <a href={link} rel="noopener noreferrer" target="_blank">{name}</a>
-{:else}{name}{/if}
+  <a href={link} rel="noopener noreferrer" target="_blank">
+    {#if image}
+      <img src={image} alt="{name} game image" />
+    {/if}
+    {name}
+  </a>
+{:else}
+  {#if image}
+    <img src={image} alt="{name} game image" />
+  {/if}
+  {name}
+{/if}
