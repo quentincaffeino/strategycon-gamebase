@@ -1,14 +1,14 @@
 <script>
   /**
-   * @type {string}
+   * @type {string|undefined}
    */
   export let name;
   /**
-   * @type {URL|null}
+   * @type {string|undefined}
    */
   export let link;
   /**
-   * @type {string}
+   * @type {string|undefined}
    */
   export let image;
 </script>

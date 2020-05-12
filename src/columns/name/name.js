@@ -19,7 +19,7 @@ function getQuickFilterText(params) {
 function valueGetter(params) {
   return {
     name: params.data.name,
-    link: params.data.link ? new URL(params.data.link) : null,
+    link: params.data.link,
     image: params.data.image,
   }
 }
