@@ -1,11 +1,14 @@
 <script>
   import { onMount } from "svelte";
   import { Grid } from "ag-grid-community";
+  import feather from "feather-icons";
 
   import { gridOptions } from "./gridOptions";
   import { importExcel } from "./utils/importExcel";
   import { localStorageTest } from "./utils/localStorageTest";
   import { workbookParser } from "./utils/workbookParser";
+
+  const searchIcon = feather.icons["search"].toSvg({ color: "#b18904" });
 
   const warningKey = "games-table-dissmissed-warning";
   let isWarningShown = !(
@@ -60,7 +63,17 @@
     width: 50px;
     float: left;
   }
-  .data-grid-header input {
+
+  .data-grid-search {
+    display: flex;
+    flex-grow: 1;
+    flex-direction: row;
+  }
+  .data-grid-search :global(svg) {
+    align-self: center;
+    padding-left: 1rem;
+  }
+  .data-grid-search input {
     flex-grow: 1;
     padding: 1rem;
     border: none;
@@ -97,9 +110,14 @@
         alt="Стратегикон" />
     </a>
 
-    <!-- <div class="data-grid-search"> -->
-    <input type="text" placeholder="Поиск..." bind:value={searchBoxValue} />
-    <!-- </div> -->
+    <label for="searchBox" class="data-grid-search">
+      {@html searchIcon}
+      <input
+        type="text"
+        id="searchBox"
+        placeholder="Поиск..."
+        bind:value={searchBoxValue} />
+    </label>
   </div>
 
   {#if isWarningShown}

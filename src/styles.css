@@ -9,7 +9,7 @@ body {
   height: 100%;
 }
 
-svg {
+.ag-cell svg {
   width: 1.25rem;
   padding-right: 5px;
 }
