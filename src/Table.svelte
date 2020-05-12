@@ -58,12 +58,12 @@
   }
   .data-grid-header img {
     width: 50px;
+    float: left;
   }
   .data-grid-header input {
     flex-grow: 1;
     padding: 1rem;
     border: none;
-    border-bottom: 1px solid hsla(0, 0%, 90%, 1);
   }
 
   .data-grid-warning {
@@ -91,9 +91,11 @@
 
 <div class="data-grid-wrapper">
   <div class="data-grid-header">
-    <img
-      src="https://strategycon.ru/wp-content/uploads/2019/09/cropped-ava-1-192x192.png"
-      alt="Стратегикон" />
+    <a href="https://strategycon.ru/" rel="noopener noreferrer">
+      <img
+        src="https://strategycon.ru/wp-content/uploads/2019/09/cropped-ava-1-192x192.png"
+        alt="Стратегикон" />
+    </a>
 
     <!-- <div class="data-grid-search"> -->
     <input type="text" placeholder="Поиск..." bind:value={searchBoxValue} />
