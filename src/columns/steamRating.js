@@ -25,7 +25,7 @@ function transformRating(rating) {
   return {
     text,
     color,
-    html: '<div class="steam-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color: 'green' }) + '</div>',
+    html: '<b class="steam-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color }) + '</b>',
   }
 }
 
