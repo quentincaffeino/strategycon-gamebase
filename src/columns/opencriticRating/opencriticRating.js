@@ -1,9 +1,9 @@
 
 import feather from 'feather-icons'
 
-import { getValue } from '../utils/getValue'
-import { applyRating } from '../utils/applyRating'
-import * as steamRatingProvider from "../utils/steamRatingProvider"
+import { getValue } from '../../utils/getValue'
+import { applyRating } from '../../utils/applyRating'
+import { opencriticRatingProvider } from "./opencriticRatingProvider"
 
 
 const noDataText = '—'
@@ -25,7 +25,7 @@ function transformRating(rating) {
   return {
     text,
     color,
-    html: '<b class="steam-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color }) + '</b>',
+    html: '<b class="rating opencritic-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color }) + '</b>',
   }
 }
 
@@ -46,15 +46,15 @@ function getQuickFilterText(params) {
 function cellRenderer(params) {
   const el = params.eGridCell
   const rating = getValue(params)
-  const gameId = params.data.steam_gameid
+  const gameId = params.data.opencritic_gameid
 
   if (gameId) {
     if (rating) {
       applyRating(el, rating)
     } else {
-      steamRatingProvider.get(gameId)
-        .then(transformRating)
+      opencriticRatingProvider.get(gameId)
         .then(rating => {
+          rating = transformRating(rating)
           params.setValue(rating)
           applyRating(el, rating)
         })
@@ -68,7 +68,7 @@ function cellRenderer(params) {
 }
 
 export const field = {
-  headerName: "Steam",
+  headerName: "Opencritic",
   getQuickFilterText,
   cellRenderer
 }

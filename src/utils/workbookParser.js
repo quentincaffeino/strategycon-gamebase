@@ -23,7 +23,8 @@ export function workbookParser(workbook) {
       N: "link",
       O: "review_link",
       P: "developer_link",
-      Q: "publisher_link"
+      Q: "publisher_link",
+      R: "opencritic_gameid",
     }
 
     let rowData = []

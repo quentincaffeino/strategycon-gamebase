@@ -1,6 +1,7 @@
 
 import { field as name } from './name/name'
-import { field as steamRating } from './steamRating'
+import { field as steamRating } from './steamRating/steamRating'
+import { field as opencriticRating } from './opencriticRating/opencriticRating'
 import { field as releaseDate } from './releaseDate'
 import { field as genre } from './genre'
 import { field as timeType } from './timeType'
@@ -20,6 +21,7 @@ export default [
   tags,
   review,
   steamRating,
+  opencriticRating,
   translations,
   status,
   developer,

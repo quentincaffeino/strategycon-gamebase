@@ -14,12 +14,11 @@ body {
   padding-right: 5px;
 }
 
-.steam-rating {
+.rating {
   display: flex;
   align-items: center;
 }
-
-.steam-rating svg {
+.rating svg {
   padding-left: 5px;
 }
 
