@@ -41,6 +41,11 @@ export const fetchQueue = () => {
   }
 
   return {
+
+    /**
+     * @param {string} resource
+     * @returns {Promise<string>}
+     */
     fetch(resource) {
       let t = null
 
@@ -55,5 +60,6 @@ export const fetchQueue = () => {
 
       return t.promise
     }
+
   }
 }

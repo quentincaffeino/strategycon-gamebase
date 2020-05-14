@@ -35,8 +35,9 @@ export function workbookParser(workbook) {
     while (worksheet["A" + rowIndex]) {
       let row = {}
       Object.keys(columns).forEach(function (column) {
-        if (worksheet[column + rowIndex]) {
-          row[columns[column]] = worksheet[column + rowIndex].w
+        const col = worksheet[column + rowIndex]
+        if (col) {
+          row[columns[column]] = col.w
         }
       })
 
