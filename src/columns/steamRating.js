@@ -53,8 +53,8 @@ function cellRenderer(params) {
       applyRating(el, rating)
     } else {
       steamRatingProvider.get(gameId)
+        .then(transformRating)
         .then(rating => {
-          rating = transformRating(rating)
           params.setValue(rating)
           applyRating(el, rating)
         })
@@ -68,7 +68,6 @@ function cellRenderer(params) {
 }
 
 export const field = {
-  field: "steam_rating",
   headerName: "Steam",
   getQuickFilterText,
   cellRenderer
