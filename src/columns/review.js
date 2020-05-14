@@ -37,16 +37,16 @@ function cellRenderer(params) {
     const link = params.data.review_link
     if (link) {
       return (
-        '<a href="' +
+        '<b><a href="' +
         link +
         '" target="_blank" rel="noopener noreferrer" style="color:' +
         color +
         '">' +
         text +
-        "</a>"
+        "</a></b>"
       )
     } else {
-      return '<span style="color:' + color + '">' + text + "</span>"
+      return '<b style="color:' + color + '">' + text + "</b>"
     }
   } else {
     return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки</a>'
