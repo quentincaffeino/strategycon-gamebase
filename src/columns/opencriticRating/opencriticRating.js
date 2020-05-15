@@ -1,6 +1,4 @@
 
-import feather from 'feather-icons'
-
 import { getValue } from '../../utils/getValue'
 import { applyRating } from '../../utils/applyRating'
 import { opencriticRatingProvider } from "./opencriticRatingProvider"
@@ -19,13 +17,13 @@ function getRatingColor(rating) {
 }
 
 function transformRating(rating) {
-  const text = Math.round(rating) + '%'
+  const text = Math.round(rating)
   const color = getRatingColor(rating)
 
   return {
     text,
     color,
-    html: '<b class="rating opencritic-rating">' + text + ' ' + feather.icons['thumbs-up'].toSvg({ color }) + '</b>',
+    html: '<b>' + text + '</b>',
   }
 }
 

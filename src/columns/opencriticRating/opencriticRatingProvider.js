@@ -19,7 +19,7 @@ class OpencriticRatingProvider extends AbstractRatingProvider {
    * @returns {number}
    */
   getRatingFromResponseBody(responseBody) {
-    const rating = responseBody.topCriticScore
+    const rating = responseBody.averageScore
 
     if (isNaN(rating)) {
       throw "Rating is not a number"
