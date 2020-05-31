@@ -6,6 +6,7 @@ import xboxIcon from 'simple-icons/icons/xbox'
 import playstation4Icon from 'simple-icons/icons/playstation4'
 import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch'
 import iosIcon from 'simple-icons/icons/ios'
+import androidIcon from 'simple-icons/icons/android'
 
 import { getValue } from '../../utils/getValue'
 import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
@@ -53,6 +54,11 @@ const platformsConfig = {
     icon: iosIcon,
     aliases: [
       'iphone'
+    ]
+  },
+  'android': {
+    icon: androidIcon,
+    aliases: [
     ]
   },
 }
