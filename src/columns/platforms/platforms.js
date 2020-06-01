@@ -17,7 +17,9 @@ const platformsConfig = {
   'windows': {
     icon: windowsIcon,
     aliases: [
-      'microsoft'
+      'microsoft',
+      'виндовс',
+      'майкрософт'
     ]
   },
   'linux': {
@@ -26,17 +28,22 @@ const platformsConfig = {
       hex: '000'
     },
     aliases: [
+      'unix',
+      'юникс',
+      'линукс'
     ]
   },
   'mac os': {
     icon: appleIcon,
     aliases: [
-      'osx'
+      'osx',
+      'мак'
     ]
   },
   'xbox one': {
     icon: xboxIcon,
     aliases: [
+      'иксбокс'
     ]
   },
   'playstation 4': {
@@ -49,17 +56,20 @@ const platformsConfig = {
   'nintendo switch': {
     icon: nintendoSwitchIcon,
     aliases: [
+      'свич'
     ]
   },
   'ios': {
     icon: iosIcon,
     aliases: [
-      'iphone'
+      'iphone',
+      'айфон'
     ]
   },
   'android': {
     icon: androidIcon,
     aliases: [
+      'андроид'
     ]
   },
   'browser': {
