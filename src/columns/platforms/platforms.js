@@ -87,9 +87,14 @@ function getAliasesFor(platform) {
  */
 function renderPlatformIcon(platform) {
   if (platform in platformsConfig) {
-    const platformIcon = createElementFromHTMLString(platformsConfig[platform].icon.svg)
-    platformIcon.setAttribute('fill', '#' + platformsConfig[platform].icon.hex)
-    return platformIcon
+    const icon = platformsConfig[platform].icon
+    if (icon) {
+      const platformIcon = createElementFromHTMLString(icon.svg)
+      if (icon.hex) {
+        platformIcon.setAttribute('fill', '#' + icon.hex)
+      }
+      return platformIcon
+    }
   }
 }
 
