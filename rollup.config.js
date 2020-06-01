@@ -31,22 +31,33 @@ require('dotenv').config({
 });
 
 
+function getOutputConf() {
+	let output = {
+		format: 'es',
+		dir: 'public/js/module',
+		chunkFileNames: '[name].js',
+		sourcemap: !production,
+	}
+
+	if (production) {
+		output = [
+			output,
+			{
+				format: 'system',
+				dir: 'public/js/nomodule',
+				chunkFileNames: '[name].js',
+				sourcemap: !production,
+			}
+		]
+	}
+
+	return output
+}
+
+
 export default {
 	input: 'src/main.js',
-	output: [
-		{
-			format: 'es',
-			dir: 'public/js/module',
-			chunkFileNames: '[name].js',
-			sourcemap: !production,
-		},
-		production && {
-			format: 'system',
-			dir: 'public/js/nomodule',
-			chunkFileNames: '[name].js',
-			sourcemap: !production,
-		}
-	],
+	output: getOutputConf(),
 
 	plugins: [
 		svelte({
