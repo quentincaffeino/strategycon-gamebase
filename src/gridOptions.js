@@ -18,7 +18,7 @@ const defaultColDef = {
 }
 
 export const gridOptions = {
-  rowHeight: 100,
+  rowHeight: 120,
 
   columnDefs,
   defaultColDef,
