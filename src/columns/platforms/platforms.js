@@ -7,6 +7,7 @@ import playstation4Icon from 'simple-icons/icons/playstation4'
 import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch'
 import iosIcon from 'simple-icons/icons/ios'
 import androidIcon from 'simple-icons/icons/android'
+import feather from "feather-icons";
 
 import { getValue } from '../../utils/getValue'
 import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
@@ -59,6 +60,14 @@ const platformsConfig = {
   'android': {
     icon: androidIcon,
     aliases: [
+    ]
+  },
+  'browser': {
+    icon: {
+      svg: feather.icons["globe"].toSvg({ color: "#000" })
+    },
+    aliases: [
+      'браузер'
     ]
   },
 }
