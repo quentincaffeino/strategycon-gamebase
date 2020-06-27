@@ -30,7 +30,6 @@
   if (!steam_game_rating && steam_gameid) {
     steamRatingPromise = getRatingFor("steam", steam_gameid).catch(console.log);
     steamRatingPromise.then(rating => {
-      console.log(rating);
       steam_game_rating = rating;
       setValue(createValue());
     });
@@ -53,7 +52,6 @@
       opencritic_gameid
     ).catch(console.log);
     opencriticRatingPromise.then(rating => {
-      console.log(rating);
       opencritic_game_rating = rating;
       setValue(createValue());
     });
