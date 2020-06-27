@@ -25,6 +25,7 @@ export function workbookParser(workbook) {
       P: "developer_link",
       Q: "publisher_link",
       R: "opencritic_gameid",
+      S: "mode",
     }
 
     let rowData = []

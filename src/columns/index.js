@@ -5,6 +5,7 @@ import { field as releaseDate } from './releaseDate'
 import { field as genre } from './genre'
 import { field as timeType } from './timeType'
 import { field as tags } from './tags'
+import { field as mode } from './mode'
 import { field as review } from './review'
 import { field as translations } from './translations/translations'
 import { field as status } from './status'
@@ -18,6 +19,7 @@ export default [
   genre,
   timeType,
   tags,
+  mode,
   review,
   thirdPartyRating,
   translations,
