@@ -14,7 +14,7 @@ const queue = fetchQueue()
 export class AbstractRatingProvider {
 
   /**
-   * @private
+   * @protected
    * @param {any} gameId
    * @returns {string}
    */
@@ -23,7 +23,7 @@ export class AbstractRatingProvider {
   }
 
   /**
-   * @private
+   * @protected
    * @param {object} responseBody
    * @returns {number}
    */
@@ -44,8 +44,8 @@ export class AbstractRatingProvider {
   }
 
   /**
-   * @private
-   * @param {string} gameId
+   * @protected
+   * @param {any} gameId
    * @returns {string} 
    */
   transformGameIdToResourceUrl(gameId) {
@@ -54,7 +54,7 @@ export class AbstractRatingProvider {
 
   /**
    * @private
-   * @param {string} gameId
+   * @param {any} gameId
    * @returns {Promise<object>}
    */
   fetchRatingFor(gameId) {
@@ -65,49 +65,53 @@ export class AbstractRatingProvider {
 
   /**
    * @private
-   * @param {string} steamRatingKey 
+   * @param {string} ratingKey 
    * @param {object} rating 
    */
-  localStorageStoreRating(steamRatingKey, rating) {
+  localStorageStoreRating(ratingKey, rating) {
     if (localStorageTest()) {
-      localStorage.setItem(steamRatingKey, JSON.stringify(rating))
+      localStorage.setItem(ratingKey, JSON.stringify(rating))
     }
   }
 
   /**
    * Function might return number because I used to store plain number in local storage
    * @private
-   * @param {string} steamRatingKey 
-   * @returns {number|object}
+   * @param {string} ratingKey 
+   * @returns {number|object|undefined}
    */
-  localStorageReadRating(steamRatingKey) {
+  localStorageReadRating(ratingKey) {
     let rating
-    if (localStorageTest() && (rating = localStorage.getItem(steamRatingKey)) && typeof rating === 'string') {
-      try {
-        rating = JSON.parse(rating)
 
-        if (typeof rating === 'object' && 'createdAt' in rating) {
-          rating.createdAt = new Date(rating.createdAt)
+    if (localStorageTest() && (rating = localStorage.getItem(ratingKey))) {
+      if (typeof rating === 'string') {
+        try {
+          rating = JSON.parse(rating)
+
+          if (typeof rating === 'object' && 'createdAt' in rating) {
+            rating.createdAt = new Date(rating.createdAt)
+          }
+
+        } catch (e) {
+          if (!(e instanceof SyntaxError)) throw e
+          console.log(e)
         }
-
-        return rating
-      } catch (e) {
-        if (!(e instanceof SyntaxError)) throw e
-        console.log(e)
       }
     }
+
+    return rating
   }
 
   /**
-   * @param {string} gameId
+   * @param {any} gameId
    * @returns {Promise<number>}
    */
   get(gameId) {
     return new Promise((resolve, reject) => {
-      const steamRatingKey = this.gameIdToStoreKey(gameId)
+      const ratingKey = this.gameIdToStoreKey(gameId)
 
-      /** @type {number|object} */
-      let rating = this.localStorageReadRating(steamRatingKey)
+      /** @type {number|object|undefined} */
+      let rating = this.localStorageReadRating(ratingKey)
       if (rating) {
         // Old way of storing - just a plain number
         if (typeof rating === 'number') {
@@ -128,7 +132,7 @@ export class AbstractRatingProvider {
 
       this.fetchRatingFor(gameId)
         .then(rating => {
-          this.localStorageStoreRating(steamRatingKey, rating)
+          this.localStorageStoreRating(ratingKey, rating)
           resolve(rating.value)
         })
         .catch(reject)
