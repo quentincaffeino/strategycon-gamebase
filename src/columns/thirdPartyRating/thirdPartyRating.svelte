@@ -12,7 +12,9 @@
       steam_gameid,
       steam_game_rating,
       opencritic_gameid,
-      opencritic_game_rating
+      opencritic_game_rating,
+      metacritic_gameid,
+      metacritic_game_rating
     };
   }
 
@@ -56,6 +58,28 @@
       setValue(createValue());
     });
   }
+
+  // Metacritic
+  /**
+   * @type {string|null}
+   */
+  export let metacritic_gameid = null;
+  /**
+   * @type {object|null}
+   */
+  export let metacritic_game_rating = null;
+
+  let metacriticRatingPromise = null;
+  if (!metacritic_game_rating && metacritic_gameid) {
+    metacriticRatingPromise = getRatingFor(
+      "metacritic",
+      metacritic_gameid
+    ).catch(console.log);
+    metacriticRatingPromise.then(rating => {
+      metacritic_game_rating = rating;
+      setValue(createValue());
+    });
+  }
 </script>
 
 <style>
@@ -87,4 +111,19 @@
       {opencritic_game_rating.text}
     </span>
   </div>
+{/if}
+
+{#if metacritic_game_rating}
+  <a
+    class="line"
+    target="_blank"
+    rel="noopener noreferrer"
+    href="https://www.metacritic.com/game/{metacritic_game_rating.gameId[1]}/{metacritic_game_rating.gameId[0]
+      .replace(' ', '-')
+      .toLowerCase()}/">
+    Metacritic:
+    <span style="color:{metacritic_game_rating.color}">
+      {metacritic_game_rating.text}
+    </span>
+  </a>
 {/if}

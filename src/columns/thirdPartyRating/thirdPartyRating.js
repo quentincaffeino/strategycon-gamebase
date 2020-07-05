@@ -22,6 +22,7 @@ function valueGetter(params) {
   return {
     steam_gameid: params.data.steam_gameid,
     opencritic_gameid: params.data.opencritic_gameid,
+    metacritic_gameid: (params.data.metacritic_gameid || '').split(',').map(str => str.trim()).filter(str => !!str),
   }
 }
 
@@ -32,7 +33,7 @@ function valueGetter(params) {
 function cellRenderer(params) {
   const target = params.eGridCell
   const value = getValue(params) || valueGetter(params)
-  // console.log(params)
+  console.log(value)
 
   new ThirdPartyRatingTemplate({ target, props: { ...value, setValue: params.setValue.bind(params) } })
 }

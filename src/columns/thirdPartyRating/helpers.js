@@ -1,9 +1,7 @@
 
 import { steamRatingProvider } from "./steamRatingProvider"
 import { opencriticRatingProvider } from "./opencriticRatingProvider"
-
-
-const noDataText = '—'
+import { metacriticRatingProvider } from "./metacriticRatingProvider"
 
 
 /**
@@ -11,6 +9,20 @@ const noDataText = '—'
  * @returns {string}
  */
 function getRatingColor(rating) {
+  if (rating < 50.0) {
+    return "red"
+  } else if (rating < 75.0) {
+    return "orange"
+  } else {
+    return "green"
+  }
+}
+
+/**
+ * @param {number} rating 
+ * @returns {string}
+ */
+function getMetacriticRatingColor(rating) {
   if (rating < 40.0) {
     return "red"
   } else if (rating < 61.0) {
@@ -22,7 +34,7 @@ function getRatingColor(rating) {
 
 
 /**
- * @param {string} gameId 
+ * @param {any} gameId 
  * @param {number} rating 
  * @returns {Object}
  */
@@ -38,7 +50,7 @@ function transformSteamRating(gameId, rating) {
 }
 
 /**
- * @param {string} gameId
+ * @param {any} gameId
  * @param {number} rating
  * @returns {Object}
  */
@@ -53,9 +65,25 @@ function transformOpencriticRating(gameId, rating) {
   }
 }
 
+/**
+ * @param {any} gameId
+ * @param {number} rating
+ * @returns {Object}
+ */
+function transformMetacriticRating(gameId, rating) {
+  const text = Math.round(rating)
+  const color = getMetacriticRatingColor(rating)
+
+  return {
+    gameId,
+    text,
+    color,
+  }
+}
+
 
 /**
- * @param {string} gameId
+ * @param {any} gameId
  * @returns {Promise<Object>}
  */
 function getSteamRatingFor(gameId) {
@@ -64,7 +92,7 @@ function getSteamRatingFor(gameId) {
 }
 
 /**
- * @param {string} gameId
+ * @param {any} gameId
  * @returns {Promise<Object>}
  */
 function getOpencriticRatingFor(gameId) {
@@ -73,8 +101,17 @@ function getOpencriticRatingFor(gameId) {
 }
 
 /**
+ * @param {any} gameId
+ * @returns {Promise<Object>}
+ */
+function getMetacriticRatingFor(gameId) {
+  return metacriticRatingProvider.get(gameId)
+    .then(transformMetacriticRating.bind(undefined, gameId))
+}
+
+/**
  * @param {string} provider 
- * @param {string} gameId
+ * @param {any} gameId
  * @returns {Promise<Object>}
  */
 export function getRatingFor(provider, gameId) {
@@ -84,5 +121,8 @@ export function getRatingFor(provider, gameId) {
 
     case 'opencritic':
       return getOpencriticRatingFor(gameId)
+
+    case 'metacritic':
+      return getMetacriticRatingFor(gameId)
   }
 }
