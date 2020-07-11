@@ -47,7 +47,6 @@ function valueGetter(params) {
 function cellRenderer(params) {
   const target = params.eGridCell
   const value = getValue(params) || valueGetter(params)
-  console.log(value)
 
   new ThirdPartyRatingTemplate({ target, props: { props: value, setValue: params.setValue.bind(params) } })
 }
