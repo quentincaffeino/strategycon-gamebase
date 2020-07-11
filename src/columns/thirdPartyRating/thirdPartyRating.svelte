@@ -3,81 +3,54 @@
 
   // Utils
   /**
-   * @type {Function|null}
+   * @type {Function}
    */
-  export let setValue = null;
+  export let setValue = () => {
+    throw new Error("thirdPartyRating.svelte: setValue isn't set.");
+  };
 
-  function createValue() {
-    return {
-      steam_gameid,
-      steam_game_rating,
-      opencritic_gameid,
-      opencritic_game_rating,
-      metacritic_gameid,
-      metacritic_game_rating
-    };
-  }
+  // In properties
+  export let props = {};
 
   // Steam
-  /**
-   * @type {string|null}
-   */
-  export let steam_gameid = null;
-  /**
-   * @type {object|null}
-   */
-  export let steam_game_rating = null;
-
   let steamRatingPromise = null;
-  if (!steam_game_rating && steam_gameid) {
-    steamRatingPromise = getRatingFor("steam", steam_gameid).catch(console.log);
+  if (!props.steam_game_rating && props.steam_gameid) {
+    steamRatingPromise = getRatingFor("steam", props.steam_gameid).catch(
+      console.log
+    );
     steamRatingPromise.then(rating => {
-      steam_game_rating = rating;
-      setValue(createValue());
+      props.steam_game_rating = rating;
+      setValue(props);
     });
   }
 
   // Opencritic
-  /**
-   * @type {string|null}
-   */
-  export let opencritic_gameid = null;
-  /**
-   * @type {object|null}
-   */
-  export let opencritic_game_rating = null;
-
   let opencriticRatingPromise = null;
-  if (!opencritic_game_rating && opencritic_gameid) {
+  if (!props.opencritic_game_rating && props.opencritic_gameid) {
     opencriticRatingPromise = getRatingFor(
       "opencritic",
-      opencritic_gameid
+      props.opencritic_gameid
     ).catch(console.log);
     opencriticRatingPromise.then(rating => {
-      opencritic_game_rating = rating;
-      setValue(createValue());
+      props.opencritic_game_rating = rating;
+      setValue(props);
     });
   }
 
   // Metacritic
-  /**
-   * @type {string|null}
-   */
-  export let metacritic_gameid = null;
-  /**
-   * @type {object|null}
-   */
-  export let metacritic_game_rating = null;
-
   let metacriticRatingPromise = null;
-  if (!metacritic_game_rating && metacritic_gameid) {
+  if (
+    !props.metacritic_game_rating &&
+    props.metacritic_gameid &&
+    props.metacritic_gameid.length
+  ) {
     metacriticRatingPromise = getRatingFor(
       "metacritic",
-      metacritic_gameid
+      props.metacritic_gameid
     ).catch(console.log);
     metacriticRatingPromise.then(rating => {
-      metacritic_game_rating = rating;
-      setValue(createValue());
+      props.metacritic_game_rating = rating;
+      setValue(props);
     });
   }
 </script>
@@ -91,39 +64,52 @@
   }
 </style>
 
-{#if steam_game_rating}
+{#if props.steam_game_rating}
   <a
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://store.steampowered.com/app/{steam_game_rating.gameId}/">
+    href="https://store.steampowered.com/app/{props.steam_game_rating.gameId}/">
     Steam:
-    <span style="color:{steam_game_rating.color}">
-      {steam_game_rating.text}
+    <span style="color:{props.steam_game_rating.color}">
+      {props.steam_game_rating.text}
     </span>
   </a>
 {/if}
 
-{#if opencritic_game_rating}
-  <div class="line">
-    Opencritic:
-    <span style="color:{opencritic_game_rating.color}">
-      {opencritic_game_rating.text}
-    </span>
-  </div>
+{#if props.opencritic_game_rating}
+  {#if props.opencritic_url}
+    <a
+      class="line"
+      target="_blank"
+      rel="noopener noreferrer"
+      href={props.opencritic_url}>
+      Opencritic:
+      <span style="color:{props.opencritic_game_rating.color}">
+        {props.opencritic_game_rating.text}
+      </span>
+    </a>
+  {:else}
+    <div class="line">
+      Opencritic:
+      <span style="color:{props.opencritic_game_rating.color}">
+        {props.opencritic_game_rating.text}
+      </span>
+    </div>
+  {/if}
 {/if}
 
-{#if metacritic_game_rating}
+{#if props.metacritic_game_rating}
   <a
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://www.metacritic.com/game/{metacritic_game_rating.gameId[1]}/{metacritic_game_rating.gameId[0]
+    href="https://www.metacritic.com/game/{props.metacritic_game_rating.gameId[1]}/{props.metacritic_game_rating.gameId[0]
       .replace(' ', '-')
       .toLowerCase()}/">
     Metacritic:
-    <span style="color:{metacritic_game_rating.color}">
-      {metacritic_game_rating.text}
+    <span style="color:{props.metacritic_game_rating.color}">
+      {props.metacritic_game_rating.text}
     </span>
   </a>
 {/if}

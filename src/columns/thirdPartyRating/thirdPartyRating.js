@@ -19,10 +19,24 @@ function getQuickFilterText(params) {
  * @returns {Object}
  */
 function valueGetter(params) {
+  // Opencritic
+  const parts = (params.data.opencritic_url || '').split('/')
+  let opencritic_gameid;
+  if (parts && parts.length) {
+    opencritic_gameid = parts[parts.length - 2]
+  }
+
+  // Metacritic
+  let metacritic_gameid = (params.data.metacritic_gameid || '').split(',').map(str => str.trim()).filter(str => !!str)
+  if (!metacritic_gameid.length) {
+    metacritic_gameid = undefined
+  }
+
   return {
     steam_gameid: params.data.steam_gameid,
-    opencritic_gameid: params.data.opencritic_gameid,
-    metacritic_gameid: (params.data.metacritic_gameid || '').split(',').map(str => str.trim()).filter(str => !!str),
+    opencritic_gameid,
+    opencritic_url: params.data.opencritic_url,
+    metacritic_gameid
   }
 }
 
@@ -35,7 +49,7 @@ function cellRenderer(params) {
   const value = getValue(params) || valueGetter(params)
   console.log(value)
 
-  new ThirdPartyRatingTemplate({ target, props: { ...value, setValue: params.setValue.bind(params) } })
+  new ThirdPartyRatingTemplate({ target, props: { props: value, setValue: params.setValue.bind(params) } })
 }
 
 

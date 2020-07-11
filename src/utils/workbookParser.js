@@ -24,7 +24,7 @@ export function workbookParser(workbook) {
       O: "review_link",
       P: "developer_link",
       Q: "publisher_link",
-      R: "opencritic_gameid",
+      R: "opencritic_url",
       S: "metacritic_gameid",
       T: "mode",
     }
