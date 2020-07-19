@@ -44,6 +44,7 @@ function transformSteamRating(gameId, rating) {
 
   return {
     gameId,
+    value: rating,
     text,
     color,
   }
@@ -55,12 +56,12 @@ function transformSteamRating(gameId, rating) {
  * @returns {Object}
  */
 function transformOpencriticRating(gameId, rating) {
-  const text = Math.round(rating)
   const color = getRatingColor(rating)
 
   return {
     gameId,
-    text,
+    value: rating,
+    text: '' + rating,
     color,
   }
 }
@@ -71,12 +72,12 @@ function transformOpencriticRating(gameId, rating) {
  * @returns {Object}
  */
 function transformMetacriticRating(gameId, rating) {
-  const text = Math.round(rating)
   const color = getMetacriticRatingColor(rating)
 
   return {
     gameId,
-    text,
+    value: rating,
+    text: '' + rating,
     color,
   }
 }

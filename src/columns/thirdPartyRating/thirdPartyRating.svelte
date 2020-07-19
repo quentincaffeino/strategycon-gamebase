@@ -99,7 +99,7 @@
   {/if}
 {/if}
 
-{#if props.metacritic_game_rating}
+{#if props.metacritic_game_rating && props.metacritic_game_rating.value > 0}
   <a
     class="line"
     target="_blank"
