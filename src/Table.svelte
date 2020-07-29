@@ -15,7 +15,6 @@
     localStorageTest() && localStorage.getItem(warningKey)
   );
 
-  let gridElement = null;
   let grid = null;
 
   let searchBoxValue = "";
@@ -30,9 +29,9 @@
     localStorageTest() && localStorage.setItem(warningKey, true);
   }
 
-  onMount(() => {
+  function initializeGrid(element) {
     // create the grid passing in the div to use together with the columns & data we want to use
-    grid = new Grid(gridElement, gridOptions);
+    grid = new Grid(element, gridOptions);
     // console.log(grid);
 
     // grid.gridOptions.api.onSelectionChanged = () =>
@@ -45,7 +44,7 @@
           gridOptions.api.setRowData(data);
         }
       });
-  });
+  }
 </script>
 
 <style>
@@ -93,12 +92,16 @@
   }
 
   .data-grid {
+    position: relative;
     flex-grow: 1;
   }
   :global(.ag-cell) {
     white-space: normal !important;
     line-height: 20px !important;
     padding: 10px 0px 10px 0px;
+  }
+  :global(.ag-root-wrapper) {
+    position: absolute;
   }
 </style>
 
@@ -133,5 +136,5 @@
     </div>
   {/if}
 
-  <div bind:this={gridElement} class="data-grid ag-theme-alpine" />
+  <div use:initializeGrid class="data-grid ag-theme-alpine" />
 </div>
