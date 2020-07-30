@@ -33,6 +33,10 @@
     grid = new Grid(element, gridOptions);
     // console.log(grid);
 
+    if (navigator.vendor && navigator.vendor.indexOf('Apple') !== -1) {
+      document.body.classList.add('vendor-apple')
+    }
+
     // grid.gridOptions.api.onSelectionChanged = () =>
     //   console.log(grid.gridOptions.api.getSelectedRows());
 
