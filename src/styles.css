@@ -52,4 +52,5 @@ body {
 }
 .vendor-apple .ag-theme-alpine.data-grid .ag-root-wrapper {
   position: absolute;
+  max-width: 100%;
 }
