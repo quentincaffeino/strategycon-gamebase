@@ -1,5 +1,4 @@
 <script>
-  import { onMount } from "svelte";
   import { Grid } from "ag-grid-community";
   import feather from "feather-icons";
 
@@ -15,7 +14,6 @@
     localStorageTest() && localStorage.getItem(warningKey)
   );
 
-  let gridElement = null;
   let grid = null;
 
   let searchBoxValue = "";
@@ -30,9 +28,9 @@
     localStorageTest() && localStorage.setItem(warningKey, true);
   }
 
-  onMount(() => {
+  function initializeDatagrid(element) {
     // create the grid passing in the div to use together with the columns & data we want to use
-    grid = new Grid(gridElement, gridOptions);
+    grid = new Grid(element, gridOptions);
     // console.log(grid);
 
     // grid.gridOptions.api.onSelectionChanged = () =>
@@ -45,7 +43,7 @@
           gridOptions.api.setRowData(data);
         }
       });
-  });
+  }
 </script>
 
 <style>
@@ -133,5 +131,5 @@
     </div>
   {/if}
 
-  <div bind:this={gridElement} class="data-grid ag-theme-alpine" />
+  <div use:initializeDatagrid class="data-grid ag-theme-alpine" />
 </div>
