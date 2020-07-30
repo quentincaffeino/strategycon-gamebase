@@ -35,3 +35,14 @@ body {
 .ag-cell a:hover {
   text-decoration: underline;
 }
+
+.ag-theme-alpine .ag-header-cell,
+.ag-theme-alpine .ag-header-group-cell {
+  padding-left: 11px;
+  padding-right: 11px;
+}
+.ag-theme-alpine .ag-cell,
+.ag-theme-alpine .ag-row > .ag-cell-wrapper {
+  padding-left: 10px;
+  padding-right: 10px;
+}
