@@ -61,7 +61,7 @@ function transformOpencriticRating(gameId, rating) {
   return {
     gameId,
     value: rating,
-    text: '' + rating,
+    text: '' + Math.round(rating),
     color,
   }
 }
