@@ -2,12 +2,11 @@
   import { getContext } from "svelte";
   import { Grid } from "ag-grid-community";
 
-  import { context } from "./App";
   import { gridOptions } from "./gridOptions";
   import { importExcel } from "./utils/importExcel";
   import { workbookParser } from "./utils/workbookParser";
 
-  const appContext = getContext(context);
+  const appContext = getContext('app');
 
   function initializeDatagrid(element) {
     // create the grid passing in the div to use together with the columns & data we want to use

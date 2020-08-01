@@ -2,13 +2,13 @@
   import feather from "feather-icons";
   import { setContext } from "svelte";
 
-  import { context, AppContext } from "./App";
+  import { AppContext } from "./App";
   import { localStorageTest } from "./utils/localStorageTest";
 
   import Table from "./Table.svelte";
 
   const appContext = new AppContext();
-  setContext(context, appContext);
+  setContext('app', appContext);
 
   const searchIcon = feather.icons["search"].toSvg({ color: "#b18904" });
 
