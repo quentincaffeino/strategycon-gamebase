@@ -26,12 +26,17 @@ body {
   border-radius: 0;
 }
 
+
+.ag-cell {
+  white-space: normal !important;
+  line-height: 20px !important;
+  padding: 10px 0px 10px 0px;
+}
 .ag-cell a {
   display: block;
   text-decoration: none;
   color: #b18904;
 }
-
 .ag-cell a:hover {
   text-decoration: underline;
 }
