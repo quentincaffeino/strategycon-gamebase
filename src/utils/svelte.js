@@ -15,3 +15,10 @@ export function svelteCellRenderer(component, params) {
     props: { ...value /*, params*/ }
   })
 }
+
+
+export function initializeComponent(component, props) {
+  const target = document.createElement('div')
+  new component({ target, props })
+  return target
+}

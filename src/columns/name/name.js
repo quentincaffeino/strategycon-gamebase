@@ -2,6 +2,8 @@
 import { svelteCellRenderer } from '../../utils/svelte'
 
 import NameTemplate from './name.svelte';
+import { NameFilter } from './NameFilter';
+import { NameFloatingFilter } from './NameFloatingFilter';
 
 
 /**
@@ -26,7 +28,8 @@ function valueGetter(params) {
 
 export const field = {
   headerName: "Игра",
-  // filter: "agTextColumnFilter",
+  filter: NameFilter,
+  floatingFilterComponent: NameFloatingFilter,
   getQuickFilterText,
   valueGetter,
   cellRenderer: svelteCellRenderer.bind(undefined, NameTemplate)
