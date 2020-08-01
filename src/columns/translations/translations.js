@@ -1,5 +1,5 @@
 
-import { svelteCellRenderer } from '../../utils/svelteCellRenderer'
+import { svelteCellRenderer } from '../../utils/svelte'
 import { getValue } from '../../utils/getValue'
 
 import TranslationsTemplate from './translations.svelte';
