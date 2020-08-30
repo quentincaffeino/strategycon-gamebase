@@ -8,13 +8,18 @@ import { getFormattedValue } from '../utils/getValue'
  * @returns {any}
  */
 function cellRenderer(params) {
-  const name = getFormattedValue(params)
-  const link = params.data.publisher_link
-  if (link) {
-    return '<a href="' + link + '" rel="noopener noreferrer" target="_blank">' + name + "</a>"
-  } else {
-    return name
+  const getLinkTemplateFor = (link, name) => link
+    ? `<a href="${link}" style="display:inline" rel="noopener noreferrer" target="_blank">${name}</a>`
+    : name
+
+  const names = (getFormattedValue(params) || '').split(',').map(el => el.trim())
+  const links = (params.data.publisher_link || '').split(',').map(el => el.trim())
+
+  let result = []
+  for (let i = 0; i < names.length; ++i) {
+    result.push(getLinkTemplateFor(links[i], names[i]))
   }
+  return result.join(', ')
 }
 
 export const field = {
