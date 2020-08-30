@@ -8,7 +8,21 @@ import { metacriticRatingProvider } from "./metacriticRatingProvider"
  * @param {number} rating 
  * @returns {string}
  */
-function getRatingColor(rating) {
+function getSteamRatingColor(rating) {
+  if (rating < 40.0) {
+    return "red"
+  } else if (rating < 70.0) {
+    return "orange"
+  } else {
+    return "blue"
+  }
+}
+
+/**
+ * @param {number} rating 
+ * @returns {string}
+ */
+function getOpencriticRatingColor(rating) {
   if (rating < 50.0) {
     return "red"
   } else if (rating < 75.0) {
@@ -40,7 +54,7 @@ function getMetacriticRatingColor(rating) {
  */
 function transformSteamRating(gameId, rating) {
   const text = Math.round(rating) + '%'
-  const color = getRatingColor(rating)
+  const color = getSteamRatingColor(rating)
 
   return {
     gameId,
@@ -56,7 +70,7 @@ function transformSteamRating(gameId, rating) {
  * @returns {Object}
  */
 function transformOpencriticRating(gameId, rating) {
-  const color = getRatingColor(rating)
+  const color = getOpencriticRatingColor(rating)
 
   return {
     gameId,
