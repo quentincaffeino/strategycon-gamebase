@@ -77,7 +77,7 @@
   </a>
 {/if}
 
-{#if props.opencritic_game_rating}
+{#if props.opencritic_game_rating && props.opencritic_game_rating.value > 0}
   {#if props.opencritic_url}
     <a
       class="line"
