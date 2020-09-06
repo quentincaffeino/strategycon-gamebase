@@ -1,4 +1,3 @@
-
 import { steamRatingProvider } from "./steamRatingProvider"
 import { opencriticRatingProvider } from "./opencriticRatingProvider"
 import { metacriticRatingProvider } from "./metacriticRatingProvider"
@@ -14,7 +13,7 @@ function getSteamRatingColor(rating) {
   } else if (rating < 70.0) {
     return "orange"
   } else {
-    return "blue"
+    return "green"
   }
 }
 
