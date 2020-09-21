@@ -164,6 +164,8 @@ export class AbstractRatingProvider {
   _storeValueInDataCollection(gameId, rating) {
     const game = this._getItemFromDataCollection(gameId)
 
+    if (!rating || rating <= 0) return
+
     if (game && game.id) {
       queue.fetch('https://gametable.strategycon.ru/gamestable/items/' + this.getDataCollectionKey() + '/' + game.id, {
         method: "PATCH",
