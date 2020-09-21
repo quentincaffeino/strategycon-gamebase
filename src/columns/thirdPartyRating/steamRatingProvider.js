@@ -14,6 +14,14 @@ class SteamRatingProvider extends AbstractRatingProvider {
   }
 
   /**
+   * @protected
+   * @returns {string}
+   */
+  getDataCollectionKey() {
+    return "steam_rating"
+  }
+
+  /**
    * @private
    * @param {object} responseBody
    * @returns {number}
