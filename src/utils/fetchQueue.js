@@ -8,13 +8,18 @@ export const fetchQueue = () => {
 
   let interval = null
 
-  function createFetchTask(resource) {
+  /**
+   * @param {string} resource
+   * @param {object} opts
+   * @returns {object}
+   */
+  function createFetchTask(resource, opts) {
     const p = createUnwrappedPromise()
 
     return {
       promise: p.promise,
       run: () => {
-        fetch(resource)
+        fetch(resource, opts)
           .then(response => response.json())
           .then(p.resolve)
           .catch(p.reject)
@@ -44,15 +49,16 @@ export const fetchQueue = () => {
 
     /**
      * @param {string} resource
+     * @param {object} opts
      * @returns {Promise<string>}
      */
-    fetch(resource) {
+    fetch(resource, opts) {
       let t = null
 
       if (resource in activeFetches) {
         t = activeFetches[resource]
       } else {
-        t = createFetchTask(resource)
+        t = createFetchTask(resource, opts)
         activeFetches[resource] = t
         queue.push(t)
         createQueueInterval()
