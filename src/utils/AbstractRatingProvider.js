@@ -39,7 +39,7 @@ export class AbstractRatingProvider {
   transformRatingToRatingCached(rating) {
     return {
       value: rating,
-      createdAt: new Date
+      updatedAt: new Date
     }
   }
 
@@ -88,8 +88,8 @@ export class AbstractRatingProvider {
         try {
           rating = JSON.parse(rating)
 
-          if (typeof rating === 'object' && 'createdAt' in rating) {
-            rating.createdAt = new Date(rating.createdAt)
+          if (typeof rating === 'object' && 'updatedAt' in rating) {
+            rating.updatedAt = new Date(rating.updatedAt)
           }
 
         } catch (e) {
@@ -116,13 +116,13 @@ export class AbstractRatingProvider {
         // Old way of storing - just a plain number
         if (typeof rating === 'number') {
           resolve(rating)
-          // pass through to fetch new rating with createdAt time
+          // pass through to fetch new rating with updatedAt time
         } else if (typeof rating === 'object') {
           resolve(rating.value)
 
-          if (rating.createdAt) {
+          if (rating.updatedAt) {
             // If value was fetched less than a day ago, don't refetch
-            const daysDiff = parseInt((new Date - rating.createdAt) / (24 * 3600 * 1000))
+            const daysDiff = parseInt((new Date - rating.updatedAt) / (24 * 3600 * 1000))
             if (daysDiff < cacheUpdateThreshold) {
               return
             }
