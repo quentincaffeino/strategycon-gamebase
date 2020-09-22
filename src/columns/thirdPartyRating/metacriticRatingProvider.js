@@ -34,7 +34,7 @@ class MetacriticRatingProvider extends AbstractRatingProvider {
    * @returns {string} 
    */
   transformGameIdToResourceUrl(gameId) {
-    return `https://cors-anywhere.herokuapp.com/https://chicken-coop.fr/rest/games/${encodeURI(gameId[0])}?platform=` + encodeURI(gameId[1])
+    return `https://metacritic.udevteam.com/rest/games/${encodeURI(gameId[0])}?platform=` + encodeURI(gameId[1])
   }
 
 }
