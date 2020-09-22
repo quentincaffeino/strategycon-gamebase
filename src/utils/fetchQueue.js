@@ -2,16 +2,33 @@
 import { createUnwrappedPromise } from './createUnwrappedPromise'
 
 
-export const fetchQueue = () => {
+const defaultProps = {
+  intervalMs: 2000
+}
+
+
+/**
+ * @param {Object} props 
+ */
+export const fetchQueue = (props) => {
+  props = Object.assign({}, defaultProps, props)
+
+  /**
+   * @var {Task}
+   */
   const queue = []
+
+  /**
+   * @var {{ [String]: Promise<Response> }}
+   */
   const activeFetches = {}
 
   let interval = null
 
   /**
-   * @param {string} resource
-   * @param {object} opts
-   * @returns {object}
+   * @param {String} resource
+   * @param {Object} opts
+   * @returns {Task}
    */
   function createFetchTask(resource, opts) {
     const p = createUnwrappedPromise()
@@ -41,16 +58,16 @@ export const fetchQueue = () => {
 
   function createQueueInterval() {
     if (!interval) {
-      interval = setInterval(() => dequeueAndFetch(), 2000)
+      interval = setInterval(() => dequeueAndFetch(), props.intervalMs)
     }
   }
 
   return {
 
     /**
-     * @param {string} resource
-     * @param {object} opts
-     * @returns {Promise<string>}
+     * @param {String} resource
+     * @param {Object} opts
+     * @returns {Promise<Response>}
      */
     fetch(resource, opts) {
       let t = null
