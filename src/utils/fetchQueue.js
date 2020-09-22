@@ -1,4 +1,6 @@
 
+import hash from 'object-hash'
+
 import { createUnwrappedPromise } from './createUnwrappedPromise'
 
 
@@ -72,11 +74,13 @@ export const fetchQueue = (props) => {
     fetch(resource, opts) {
       let t = null
 
-      if (resource in activeFetches) {
-        t = activeFetches[resource]
+      const key = hash({ resource, opts })
+
+      if (key in activeFetches) {
+        t = activeFetches[key]
       } else {
         t = createFetchTask(resource, opts)
-        activeFetches[resource] = t
+        activeFetches[key] = t
         queue.push(t)
         createQueueInterval()
       }

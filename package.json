@@ -37,6 +37,8 @@
     "xlsx-style": "^0.8.13"
   },
   "dependencies": {
+    "debug": "^4.2.0",
+    "object-hash": "^2.0.3",
     "sirv-cli": "^0.4.4"
   }
 }
