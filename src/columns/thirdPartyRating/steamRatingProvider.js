@@ -5,6 +5,13 @@ import { AbstractRatingProvider } from "../../utils/AbstractRatingProvider";
 class SteamRatingProvider extends AbstractRatingProvider {
 
   /**
+   * @returns {bool}
+   */
+  hasDataCollection() {
+    return true
+  }
+
+  /**
    * @private
    * @param {any} gameId
    * @returns {string}

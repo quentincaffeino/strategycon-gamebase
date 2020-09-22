@@ -1,6 +1,11 @@
 
+import debug from 'debug'
+
 import { fetchQueue } from './fetchQueue'
 import { localStorageTest } from './localStorageTest'
+
+
+const log = debug('gamestable:AbstractRatingProvider')
 
 
 /**
@@ -12,6 +17,13 @@ const queue = fetchQueue()
 
 
 export class AbstractRatingProvider {
+
+  /**
+   * @returns {bool}
+   */
+  hasDataCollection() {
+    return false
+  }
 
   /**
    * @protected
@@ -67,7 +79,12 @@ export class AbstractRatingProvider {
    * @returns {Promise<object>}
    */
   fetchRatingFor(gameId) {
-    return queue.fetch(this.transformGameIdToResourceUrl(gameId))
+    log('fetchRatingFor(gameId: %o)', gameId)
+
+    const resourceUrl = this.transformGameIdToResourceUrl(gameId)
+    log('fetchRatingFor(gameId: %o) -> resourceUrl: %o', gameId, resourceUrl)
+
+    return queue.fetch(resourceUrl)
       .then(this.getRatingFromResponseBody)
       .then(this.transformRatingToRatingCached)
   }
@@ -78,6 +95,8 @@ export class AbstractRatingProvider {
    * @param {object} rating 
    */
   localStorageStoreRating(ratingKey, rating) {
+    log('localStorageStoreRating(ratingKey: %o, rating: %o)', ratingKey, rating)
+
     if (localStorageTest()) {
       localStorage.setItem(ratingKey, JSON.stringify(rating))
     }
@@ -145,10 +164,15 @@ export class AbstractRatingProvider {
     const game = this._getItemFromDataCollection(gameId)
 
     if (game && game.rating != 0) {
+      log('_getValueFromDataCollection(gameId: %o): game: %o', gameId, game)
+
       if (game.modified_on && isOld(game.modified_on)) {
+        log('_getValueFromDataCollection(gameId: %o): is old enough', gameId)
+
         return null
       }
 
+      log('_getValueFromDataCollection(gameId: %o) -> rating: %o', gameId, game.rating)
       return game.rating
     }
 
@@ -162,11 +186,16 @@ export class AbstractRatingProvider {
    * @returns {void}
    */
   _storeValueInDataCollection(gameId, rating) {
-    const game = this._getItemFromDataCollection(gameId)
+    log('_storeValueInDataCollection(gameId: %o, rating: %o)', gameId, rating)
 
     if (!rating || rating <= 0) return
 
+    const game = this._getItemFromDataCollection(gameId)
+    log('_storeValueInDataCollection(gameId: %o, rating: %o) -> game: %o', gameId, rating, game)
+
     if (game && game.id) {
+      log('_storeValueInDataCollection(gameId: %o, rating: %o) Updating', gameId, rating)
+
       queue.fetch('https://gametable.strategycon.ru/gamestable/items/' + this.getDataCollectionKey() + '/' + game.id, {
         method: "PATCH",
         headers: {
@@ -178,6 +207,8 @@ export class AbstractRatingProvider {
         })
       })
     } else {
+      log('_storeValueInDataCollection(gameId: %o, rating: %o): Creating', gameId, rating)
+
       queue.fetch('https://gametable.strategycon.ru/gamestable/items/' + this.getDataCollectionKey(), {
         method: "POST",
         headers: {
@@ -198,10 +229,15 @@ export class AbstractRatingProvider {
    * @returns {object|null}
    */
   _getValueFromStore(gameId) {
+    log('_getValueFromStore(gameId: %o)', gameId)
+
     const ratingKey = this.gameIdToStoreKey(gameId)
+    log('_getValueFromStore(gameId: %o) -> ratingKey: %o', gameId, ratingKey)
 
     /** @type {number|object|undefined} */
     let rating = this.localStorageReadRating(ratingKey)
+    log('_getValueFromStore(gameId: %o) -> rating: %o', gameId, rating)
+
     if (rating) {
       // Old way of storing - just a plain number
       if (typeof rating === 'number') {
@@ -224,19 +260,37 @@ export class AbstractRatingProvider {
    * @returns {Promise<number>}
    */
   get(gameId) {
+    log('get(gameId: %o)', gameId)
+
     return new Promise((resolve, reject) => {
-      let rating = this._getValueFromDataCollection(gameId)
-      if (rating) return resolve(rating)
+      let rating
+
+      try {
+        rating = this._getValueFromDataCollection(gameId)
+        if (rating) return resolve(rating)
+      } catch (_) { }
 
       rating = this._getValueFromStore(gameId)
       if (rating) {
-        this._storeValueInDataCollection(gameId, rating)
+        if (this.hasDataCollection()) {
+          this._storeValueInDataCollection(gameId, rating)
+        } else {
+          this.localStorageStoreRating(this.gameIdToStoreKey(gameId), rating)
+        }
+
         return resolve(rating)
       }
 
       this.fetchRatingFor(gameId)
         .then(rating => {
-          this._storeValueInDataCollection(gameId, rating)
+          log('get(gameId: %o): fetchRatingFor -> rating: %o', gameId, rating)
+
+          if (this.hasDataCollection()) {
+            this._storeValueInDataCollection(gameId, rating.value)
+          } else {
+            this.localStorageStoreRating(this.gameIdToStoreKey(gameId), rating.value)
+          }
+
           resolve(rating.value)
         })
         .catch(reject)
