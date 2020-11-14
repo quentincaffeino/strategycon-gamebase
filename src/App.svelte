@@ -86,7 +86,7 @@
     <div class="data-grid-header">
       <a href="https://strategycon.ru/" rel="noopener noreferrer">
         <img
-          src="https://strategycon.ru/wp-content/uploads/2019/09/cropped-ava-1-192x192.png"
+          src="https://strategycon.ru/wp-content/uploads/2019/09/ava.png"
           alt="Стратегикон" />
       </a>
 
