@@ -14,6 +14,7 @@ import copy from 'rollup-plugin-copy'
 import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
 import rimraf from 'rimraf'
+import strip from '@rollup/plugin-strip';
 import { getReplaceObj, serve } from './utils'
 const path = require("path");
 
@@ -101,6 +102,8 @@ export default {
 				// { src: 'node_modules/flag-icon-css/flags/4x3/**.svg', dest: 'public/flags' },
 			]
 		}),
+
+		production && strip(),
 
 		// closureCompiler({
 		// 	compilation_level: 'ADVANCED'
