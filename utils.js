@@ -34,7 +34,10 @@ export const setupEnv = (() => {
   const PRODUCTION_ENV = 'production'
   const DEFAULT_ENV = DEVELOPMENT_ENV
 
-  let dotEnv;
+  let dotEnv = {
+    [DEVELOPMENT_ENV]: null,
+    [PRODUCTION_ENV]: null,
+  };
 
   /**
    * @param {string} env 
@@ -51,33 +54,45 @@ export const setupEnv = (() => {
     return suffix
   }
 
-  return function (config) {
-    if (dotEnv) return dotEnv
+  function loadEnv(config) {
+    const env = config.env
 
-    // Fallback to dev env
-    let env = config.env || DEFAULT_ENV
+    if (!config.env) return {};
+
+    console.log(config, env, dotEnv)
+    if (dotEnv[env]) return dotEnv[env]
 
     // Get 
     const suffix = getEnvFilenameSuffix(env)
+    console.log(suffix)
     const localEnvConfig = dotenv.config({
       path: path.resolve(process.cwd(), './.env' + suffix + '.local')
     })
     const envConfig = dotenv.config({
       path: path.resolve(process.cwd(), './.env' + suffix)
     })
-    dotEnv = Object.assign({}, envConfig.parsed, localEnvConfig.parsed)
+    dotEnv = Object.assign(
+      {},
+      env != DEVELOPMENT_ENV ? loadEnv({ env: DEVELOPMENT_ENV }) : {},
+      envConfig.parsed,
+      localEnvConfig.parsed
+    );
 
+    console.log('dotEnv', dotEnv)
     return dotEnv
   }
+
+  return loadEnv;
 })()
 
 
-export const getReplaceObj = (() => {
-  const NODE_ENV = process.env.NODE_ENV
-  const loadedEnv = setupEnv({ env: NODE_ENV })
+export function getReplaceObj({ env }) {
+  const loadedEnv = setupEnv({ env })
   const replaceObj = Object.assign({}, loadedEnv, {
-    'process.env.NODE_ENV': JSON.stringify(NODE_ENV),
+    'process.env.NODE_ENV': JSON.stringify(env),
   })
 
-  return () => replaceObj;
-})()
+  console.log("replaceObj", replaceObj);
+
+  return replaceObj;
+}
