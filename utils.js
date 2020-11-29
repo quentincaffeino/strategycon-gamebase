@@ -59,12 +59,10 @@ export const setupEnv = (() => {
 
     if (!config.env) return {};
 
-    console.log(config, env, dotEnv)
     if (dotEnv[env]) return dotEnv[env]
 
     // Get 
     const suffix = getEnvFilenameSuffix(env)
-    console.log(suffix)
     const localEnvConfig = dotenv.config({
       path: path.resolve(process.cwd(), './.env' + suffix + '.local')
     })
@@ -78,7 +76,6 @@ export const setupEnv = (() => {
       localEnvConfig.parsed
     );
 
-    console.log('dotEnv', dotEnv)
     return dotEnv
   }
 
@@ -92,7 +89,6 @@ export function getReplaceObj({ env }) {
     'process.env.NODE_ENV': JSON.stringify(env),
   })
 
-  console.log("replaceObj", replaceObj);
 
   return replaceObj;
 }
