@@ -14,6 +14,7 @@ import copy from 'rollup-plugin-copy'
 import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
 import rimraf from 'rimraf'
+import { getReplaceObj, serve } from './utils'
 const path = require("path");
 
 
@@ -91,13 +92,7 @@ export default {
 			sourceMap: !production,
 		}),
 
-		replace({
-			values: {
-				'process.env.NODE_ENV': production ? '\"production\"' : '\"development\"',
-				LOAD_XLSX_FROM: process.env.LOAD_XLSX_FROM,
-			},
-			exclude: './node_modules/**'
-		}),
+		replace(getReplaceObj()),
 
 		json(),
 
@@ -143,22 +138,5 @@ export default {
 	},
 	watch: {
 		clearScreen: false
-	}
-}
-
-function serve() {
-	let started = false
-
-	return {
-		writeBundle() {
-			if (!started) {
-				started = true
-
-				require('child_process').spawn('npm', ['run', 'start', '--', '--dev'], {
-					stdio: ['ignore', 'inherit', 'inherit'],
-					shell: true
-				})
-			}
-		}
 	}
 }
