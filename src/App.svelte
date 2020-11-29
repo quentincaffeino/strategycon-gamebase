@@ -1,5 +1,5 @@
 <script>
-  import feather from "feather-icons";
+  import { SearchIcon } from "svelte-feather-icons";
   import { setContext } from "svelte";
 
   import { AppContext } from "./App";
@@ -9,8 +9,6 @@
 
   const appContext = new AppContext();
   setContext('app', appContext);
-
-  const searchIcon = feather.icons["search"].toSvg({ color: "#b18904" });
 
   const warningKey = "games-table-dissmissed-warning";
   let isWarningShown = !(
@@ -91,7 +89,8 @@
       </a>
 
       <label for="searchBox" class="data-grid-search">
-        {@html searchIcon}
+        <SearchIcon size="1.5x" />
+
         <input
           type="text"
           id="searchBox"

@@ -7,7 +7,7 @@ import playstation4Icon from 'simple-icons/icons/playstation4'
 import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch'
 import iosIcon from 'simple-icons/icons/ios'
 import androidIcon from 'simple-icons/icons/android'
-import feather from "feather-icons";
+import { GlobeIcon } from "svelte-feather-icons";
 
 import { getValue } from '../../utils/getValue'
 import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
@@ -23,10 +23,9 @@ const platformsConfig = {
     ]
   },
   'linux': {
-    icon: {
-      ...linuxIcon,
+    icon: Object.assign({}, linuxIcon, {
       hex: '000'
-    },
+    }),
     aliases: [
       'unix',
       'юникс',
@@ -74,7 +73,14 @@ const platformsConfig = {
   },
   'browser': {
     icon: {
-      svg: feather.icons["globe"].toSvg({ color: "#000" })
+      svg: () => {
+        const el = document.createElement("div");
+        new GlobeIcon({ target: el });
+        const icon = el.firstChild;
+        icon.removeAttribute('width')
+        icon.removeAttribute('height')
+        return icon;
+      }
     },
     aliases: [
       'браузер'
@@ -108,7 +114,12 @@ function renderPlatformIcon(platform) {
   if (platform in platformsConfig) {
     const icon = platformsConfig[platform].icon
     if (icon) {
-      const platformIcon = createElementFromHTMLString(icon.svg)
+      const platformIcon =
+        typeof icon.svg === "string"
+          ? createElementFromHTMLString(icon.svg)
+          : typeof icon.svg === "function"
+          ? icon.svg()
+          : icon.svg;
       if (icon.hex) {
         platformIcon.setAttribute('fill', '#' + icon.hex)
       }

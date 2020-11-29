@@ -19,7 +19,6 @@
     "autoprefixer": "^9.7.6",
     "country-language": "^0.1.7",
     "dotenv": "^8.2.0",
-    "feather-icons": "^4.28.0",
     "flag-icon-css": "^3.4.6",
     "gzip": "^0.1.0",
     "normalize.css": "^8.0.1",
@@ -41,6 +40,7 @@
   "dependencies": {
     "debug": "^4.2.0",
     "object-hash": "^2.0.3",
-    "sirv-cli": "^0.4.4"
+    "sirv-cli": "^0.4.4",
+    "svelte-feather-icons": "^3.3.0"
   }
 }
