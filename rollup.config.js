@@ -15,11 +15,11 @@ import replace from '@rollup/plugin-replace'
 import json from '@rollup/plugin-json'
 import rimraf from 'rimraf'
 import strip from '@rollup/plugin-strip';
-import { getReplaceObj, serve } from './utils'
-const path = require("path");
+import { getReplaceObj, serve, setupEnv } from './utils'
 
 
 const production = !process.env.ROLLUP_WATCH
+setupEnv({ env: process.env.NODE_ENV });
 
 
 rimraf('public/css', () => console.log('removed CSSs'))
@@ -27,10 +27,6 @@ rimraf('public/js', () => console.log('removed JSs'))
 rimraf('public/**.map', () => console.log('removed MAPs'))
 // rimraf('public/**.gz', () => console.log('removed GZs'))
 // rimraf('public/**.br', () => console.log('removed BRs'))
-
-require('dotenv').config({
-	path: path.resolve(process.cwd(), production ? '.env.prod' : '.env')
-});
 
 
 function getOutputConf() {
