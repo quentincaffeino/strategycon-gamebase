@@ -19,7 +19,7 @@ import { getReplaceObj, serve, setupEnv } from './utils'
 
 
 const production = !process.env.ROLLUP_WATCH
-setupEnv({ env: process.env.NODE_ENV });
+setupEnv({ env: production ? "production" : process.env.NODE_ENV });
 
 
 rimraf('public/css', () => console.log('removed CSSs'))
