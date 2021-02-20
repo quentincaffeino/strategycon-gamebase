@@ -79,7 +79,7 @@ export const setupEnv = (() => {
       localEnvConfig.parsed
     );
 
-    return dotEnv;
+    return dotEnv[env];
   }
 
   return loadEnv;
