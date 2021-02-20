@@ -16,7 +16,7 @@
   let steamRatingPromise = null;
   if (!props.steam_game_rating && props.steam_gameid) {
     steamRatingPromise = getRatingFor("steam", props.steam_gameid).catch(
-      console.log
+      console.error
     );
     steamRatingPromise.then(rating => {
       props.steam_game_rating = rating;
@@ -30,7 +30,7 @@
     opencriticRatingPromise = getRatingFor(
       "opencritic",
       props.opencritic_gameid
-    ).catch(console.log);
+    ).catch(console.error);
     opencriticRatingPromise.then(rating => {
       props.opencritic_game_rating = rating;
       setValue(props);
@@ -47,7 +47,7 @@
     metacriticRatingPromise = getRatingFor(
       "metacritic",
       props.metacritic_gameid
-    ).catch(console.log);
+    ).catch(console.error);
     metacriticRatingPromise.then(rating => {
       props.metacritic_game_rating = rating;
       setValue(props);
