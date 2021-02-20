@@ -1,13 +1,15 @@
-
 /**
  * @param {any} params
  * @returns {any}
  */
 export function getValue(params) {
-  if (Object.prototype.hasOwnProperty.call(params, 'getValue') && typeof params.getValue === "function") {
-    return params.getValue()
+  if (
+    Object.prototype.hasOwnProperty.call(params, "getValue") &&
+    typeof params.getValue === "function"
+  ) {
+    return params.getValue();
   } else {
-    return params.value
+    return params.value;
   }
 }
 
@@ -16,9 +18,12 @@ export function getValue(params) {
  * @returns {any}
  */
 export function getFormattedValue(params) {
-  if (Object.prototype.hasOwnProperty.call(params, 'valueFormatted') && params.valueFormatted) {
-    return params.valueFormatted
+  if (
+    Object.prototype.hasOwnProperty.call(params, "valueFormatted") &&
+    params.valueFormatted
+  ) {
+    return params.valueFormatted;
   } else {
-    return getValue(params)
+    return getValue(params);
   }
 }

@@ -1,4 +1,3 @@
-
 export function localStorageTest() {
   let test = "test";
   try {

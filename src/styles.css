@@ -1,7 +1,7 @@
-@import 'normalize.css';
+@import "normalize.css";
 
-@import 'ag-grid-community/dist/styles/ag-grid.css';
-@import 'ag-grid-community/dist/styles/ag-theme-alpine.css';
+@import "ag-grid-community/dist/styles/ag-grid.css";
+@import "ag-grid-community/dist/styles/ag-theme-alpine.css";
 
 html,
 body {
@@ -25,7 +25,6 @@ body {
 .ag-theme-alpine .ag-root-wrapper {
   border-radius: 0;
 }
-
 
 .ag-cell {
   white-space: normal !important;

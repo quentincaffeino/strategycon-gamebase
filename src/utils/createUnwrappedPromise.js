@@ -1,4 +1,3 @@
-
 export function createUnwrappedPromise() {
   let resolve;
   let reject;

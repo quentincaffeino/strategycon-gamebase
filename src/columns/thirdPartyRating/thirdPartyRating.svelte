@@ -13,63 +13,47 @@
   export let props = {};
 
   // Steam
-  let steamRatingPromise = null;
-  if (!props.steam_game_rating && props.steam_gameid) {
-    steamRatingPromise = getRatingFor("steam", props.steam_gameid).catch(
-      console.error
-    );
-    steamRatingPromise.then(rating => {
-      props.steam_game_rating = rating;
-      setValue(props);
-    });
+  $: if (!props.steam_game_rating && props.steam_gameid) {
+    getRatingFor("steam", props.steam_gameid)
+      .catch(console.error)
+      .then((rating) => {
+        props.steam_game_rating = rating;
+        setValue(props);
+      });
   }
 
   // Opencritic
-  let opencriticRatingPromise = null;
   if (!props.opencritic_game_rating && props.opencritic_gameid) {
-    opencriticRatingPromise = getRatingFor(
-      "opencritic",
-      props.opencritic_gameid
-    ).catch(console.error);
-    opencriticRatingPromise.then(rating => {
-      props.opencritic_game_rating = rating;
-      setValue(props);
-    });
+    getRatingFor("opencritic", props.opencritic_gameid)
+      .catch(console.error)
+      .then((rating) => {
+        props.opencritic_game_rating = rating;
+        setValue(props);
+      });
   }
 
   // Metacritic
-  let metacriticRatingPromise = null;
   if (
     !props.metacritic_game_rating &&
     props.metacritic_gameid &&
     props.metacritic_gameid.length
   ) {
-    metacriticRatingPromise = getRatingFor(
-      "metacritic",
-      props.metacritic_gameid
-    ).catch(console.error);
-    metacriticRatingPromise.then(rating => {
-      props.metacritic_game_rating = rating;
-      setValue(props);
-    });
+    getRatingFor("metacritic", props.metacritic_gameid)
+      .catch(console.error)
+      .then((rating) => {
+        props.metacritic_game_rating = rating;
+        setValue(props);
+      });
   }
 </script>
-
-<style>
-  .line {
-    white-space: nowrap;
-  }
-  span {
-    font-weight: bold;
-  }
-</style>
 
 {#if props.steam_game_rating}
   <a
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://store.steampowered.com/app/{props.steam_game_rating.gameId}/">
+    href="https://store.steampowered.com/app/{props.steam_game_rating.gameId}/"
+  >
     Steam:
     <span style="color:{props.steam_game_rating.color}">
       {props.steam_game_rating.text}
@@ -83,7 +67,8 @@
       class="line"
       target="_blank"
       rel="noopener noreferrer"
-      href={props.opencritic_url}>
+      href={props.opencritic_url}
+    >
       Opencritic:
       <span style="color:{props.opencritic_game_rating.color}">
         {props.opencritic_game_rating.text}
@@ -104,12 +89,23 @@
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://www.metacritic.com/game/{props.metacritic_game_rating.gameId[1]}/{props.metacritic_game_rating.gameId[0]
+    href="https://www.metacritic.com/game/{props.metacritic_game_rating
+      .gameId[1]}/{props.metacritic_game_rating.gameId[0]
       .replace(' ', '-')
-      .toLowerCase()}/">
+      .toLowerCase()}/"
+  >
     Metacritic:
     <span style="color:{props.metacritic_game_rating.color}">
       {props.metacritic_game_rating.text}
     </span>
   </a>
 {/if}
+
+<style>
+  .line {
+    white-space: nowrap;
+  }
+  span {
+    font-weight: bold;
+  }
+</style>

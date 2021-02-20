@@ -1,14 +1,11 @@
-
 import { AbstractRatingProvider } from "../../utils/AbstractRatingProvider";
 
-
 class SteamRatingProvider extends AbstractRatingProvider {
-
   /**
    * @returns {bool}
    */
   hasDataCollection() {
-    return true
+    return true;
   }
 
   /**
@@ -17,7 +14,7 @@ class SteamRatingProvider extends AbstractRatingProvider {
    * @returns {string}
    */
   gameIdToStoreKey(gameId) {
-    return "steam-rating-" + gameId
+    return "steam-rating-" + gameId;
   }
 
   /**
@@ -25,7 +22,7 @@ class SteamRatingProvider extends AbstractRatingProvider {
    * @returns {string}
    */
   getDataCollectionKey() {
-    return "steam_rating"
+    return "steam_rating";
   }
 
   /**
@@ -34,28 +31,30 @@ class SteamRatingProvider extends AbstractRatingProvider {
    * @returns {number}
    */
   getRatingFromResponseBody(responseBody) {
-    const rating = (responseBody.query_summary.total_positive /
-      responseBody.query_summary.total_reviews) *
+    const rating =
+      (responseBody.query_summary.total_positive /
+        responseBody.query_summary.total_reviews) *
       100;
 
     if (isNaN(rating)) {
-      throw "Rating is not a number"
+      throw "Rating is not a number";
     }
 
-    return rating
+    return rating;
   }
 
   /**
    * @private
    * @param {string} gameId
-   * @returns {string} 
+   * @returns {string}
    */
   transformGameIdToResourceUrl(gameId) {
-    return "https://cors-anywhere.herokuapp.com/https://store.steampowered.com/appreviews/" +
+    return (
+      "https://cors-anywhere.herokuapp.com/https://store.steampowered.com/appreviews/" +
       gameId +
       "?json=1&language=all"
+    );
   }
-
 }
 
-export const steamRatingProvider = new SteamRatingProvider
+export const steamRatingProvider = new SteamRatingProvider();

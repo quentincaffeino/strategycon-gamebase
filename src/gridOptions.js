@@ -1,8 +1,6 @@
-
 import columnDefs from "./columns";
 // import { onRowSelectionChanged } from './utils/onRowSelectionChanged'
 // import { selectedRow } from './utils/selectedRow'
-
 
 const defaultColDef = {
   // autoHeight: true,
@@ -13,9 +11,9 @@ const defaultColDef = {
   filter: true,
   floatingFilter: true,
   floatingFilterComponentParams: {
-    suppressFilterButton: true
-  }
-}
+    suppressFilterButton: true,
+  },
+};
 
 export const gridOptions = {
   rowHeight: 120,
@@ -24,37 +22,35 @@ export const gridOptions = {
   defaultColDef,
 
   // rowSelection: "single",
-  onRowSelected: event => {
+  onRowSelected: (event) => {
     if (event.node.isSelected()) {
-      console.log(event)
+      console.log(event);
     }
   },
   // onSelectionChanged: () => gridOptions.api.getSelectedRows(),
-  
+
   // components: {
   //   customNumberFloatingFilter: getNumberFloatingFilterComponent()
   // },
 
-  rowData: []
-}
+  rowData: [],
+};
 
 // export const selectedRowStore = selectedRow(gridOptions.api)
 
-
 function getNumberFloatingFilterComponent() {
-  function NumberFloatingFilter() {
-  }
+  function NumberFloatingFilter() {}
 
   NumberFloatingFilter.prototype.init = function (params) {
-    this.eGui = document.createElement('div');
+    this.eGui = document.createElement("div");
     this.eGui.innerHTML = '&gt; <input style="width:20px" type="text"/>';
     this.currentValue = null;
-    this.eFilterInput = this.eGui.querySelector('input');
+    this.eFilterInput = this.eGui.querySelector("input");
     this.eFilterInput.style.color = params.color;
     var that = this;
 
     function onInputBoxChanged() {
-      if (that.eFilterInput.value === '') {
+      if (that.eFilterInput.value === "") {
         // Remove the filter
         params.parentFilterInstance(function (instance) {
           instance.onFloatingFilterChanged(null, null);
@@ -64,21 +60,21 @@ function getNumberFloatingFilterComponent() {
 
       that.currentValue = Number(that.eFilterInput.value);
       params.parentFilterInstance(function (instance) {
-        console.log(instance)
+        console.log(instance);
       });
-        // instance.onFloatingFilterChanged('greaterThan', that.currentValue);
+      // instance.onFloatingFilterChanged('greaterThan', that.currentValue);
     }
 
-    this.eFilterInput.addEventListener('input', onInputBoxChanged);
+    this.eFilterInput.addEventListener("input", onInputBoxChanged);
   };
 
   NumberFloatingFilter.prototype.onParentModelChanged = function (parentModel) {
     // When the filter is empty we will receive a null message her
     if (!parentModel) {
-      this.eFilterInput.value = '';
+      this.eFilterInput.value = "";
       this.currentValue = null;
     } else {
-      this.eFilterInput.value = parentModel.filter + '';
+      this.eFilterInput.value = parentModel.filter + "";
       this.currentValue = parentModel.filter;
     }
   };

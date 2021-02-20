@@ -1,9 +1,8 @@
-
 export function workbookParser(workbook) {
   return new Promise((resolve) => {
     // our data is in the first sheet
-    let firstSheetName = workbook.SheetNames[0]
-    let worksheet = workbook.Sheets[firstSheetName]
+    let firstSheetName = workbook.SheetNames[0];
+    let worksheet = workbook.Sheets[firstSheetName];
 
     // we expect the following columns to be present
     let columns = {
@@ -27,29 +26,29 @@ export function workbookParser(workbook) {
       R: "opencritic_url",
       S: "metacritic_gameid",
       T: "mode",
-    }
+    };
 
-    let rowData = []
+    let rowData = [];
 
     // start at the 2nd row - the first row are the headers
-    let rowIndex = 2
+    let rowIndex = 2;
 
     // iterate over the worksheet pulling out the columns we're expecting
     while (worksheet["A" + rowIndex]) {
-      let row = {}
+      let row = {};
       Object.keys(columns).forEach(function (column) {
-        const col = worksheet[column + rowIndex]
+        const col = worksheet[column + rowIndex];
         if (col) {
-          row[columns[column]] = col.w
+          row[columns[column]] = col.w;
         }
-      })
+      });
 
-      rowData.push(row)
+      rowData.push(row);
 
-      rowIndex++
+      rowIndex++;
     }
 
     // finally, set the imported rowData into the grid
-    resolve(rowData)
-  })
+    resolve(rowData);
+  });
 }

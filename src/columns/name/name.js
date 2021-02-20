@@ -1,17 +1,15 @@
+import { svelteCellRenderer } from "../../utils/svelte";
 
-import { svelteCellRenderer } from '../../utils/svelte'
-
-import NameTemplate from './name.svelte';
-import { NameFilter } from './NameFilter';
-import { NameFloatingFilter } from './NameFloatingFilter';
-
+import NameTemplate from "./name.svelte";
+import { NameFilter } from "./NameFilter";
+import { NameFloatingFilter } from "./NameFloatingFilter";
 
 /**
  * @param {ValueGetterParams} params
  * @returns {Object}
  */
 function getQuickFilterText(params) {
-  return params.data.name
+  return params.data.name;
 }
 
 /**
@@ -23,7 +21,7 @@ function valueGetter(params) {
     name: params.data.name,
     link: params.data.link,
     image: params.data.image,
-  }
+  };
 }
 
 export const field = {
@@ -32,5 +30,5 @@ export const field = {
   floatingFilterComponent: NameFloatingFilter,
   getQuickFilterText,
   valueGetter,
-  cellRenderer: svelteCellRenderer.bind(undefined, NameTemplate)
-}
+  cellRenderer: svelteCellRenderer.bind(undefined, NameTemplate),
+};

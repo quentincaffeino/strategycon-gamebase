@@ -1,2 +1,1 @@
-
-export const field = { field: "status", headerName: "Статус" }
+export const field = { field: "status", headerName: "Статус" };

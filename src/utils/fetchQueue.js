@@ -1,31 +1,28 @@
+import hash from "object-hash";
 
-import hash from 'object-hash'
-
-import { createUnwrappedPromise } from './createUnwrappedPromise'
-
+import { createUnwrappedPromise } from "./createUnwrappedPromise";
 
 const defaultProps = {
-  intervalMs: 2000
-}
-
+  intervalMs: 2000,
+};
 
 /**
- * @param {Object} props 
+ * @param {Object} props
  */
 export const fetchQueue = (props) => {
-  props = Object.assign({}, defaultProps, props)
+  props = Object.assign({}, defaultProps, props);
 
   /**
    * @var {Task}
    */
-  const queue = []
+  const queue = [];
 
   /**
    * @var {{ [String]: Promise<Response> }}
    */
-  const activeFetches = {}
+  const activeFetches = {};
 
-  let interval = null
+  let interval = null;
 
   /**
    * @param {String} resource
@@ -33,60 +30,58 @@ export const fetchQueue = (props) => {
    * @returns {Task}
    */
   function createFetchTask(resource, opts) {
-    const p = createUnwrappedPromise()
+    const p = createUnwrappedPromise();
 
     return {
       promise: p.promise,
       run: () => {
         fetch(resource, opts)
-          .then(response => response.json())
+          .then((response) => response.json())
           .then(p.resolve)
           .catch(p.reject)
           .finally(() => {
-            delete activeFetches[resource]
-          })
-      }
-    }
+            delete activeFetches[resource];
+          });
+      },
+    };
   }
 
   function dequeueAndFetch() {
-    const task = queue.shift()
+    const task = queue.shift();
     if (task) {
-      task.run()
+      task.run();
     } else {
-      clearInterval(interval)
+      clearInterval(interval);
     }
   }
 
   function createQueueInterval() {
     if (!interval) {
-      interval = setInterval(() => dequeueAndFetch(), props.intervalMs)
+      interval = setInterval(() => dequeueAndFetch(), props.intervalMs);
     }
   }
 
   return {
-
     /**
      * @param {String} resource
      * @param {Object} opts
      * @returns {Promise<Response>}
      */
     fetch(resource, opts) {
-      let t = null
+      let t = null;
 
-      const key = hash({ resource, opts })
+      const key = hash({ resource, opts });
 
       if (key in activeFetches) {
-        t = activeFetches[key]
+        t = activeFetches[key];
       } else {
-        t = createFetchTask(resource, opts)
-        activeFetches[key] = t
-        queue.push(t)
-        createQueueInterval()
+        t = createFetchTask(resource, opts);
+        activeFetches[key] = t;
+        queue.push(t);
+        createQueueInterval();
       }
 
-      return t.promise
-    }
-
-  }
-}
+      return t.promise;
+    },
+  };
+};

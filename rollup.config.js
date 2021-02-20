@@ -1,143 +1,140 @@
-import svelte from 'rollup-plugin-svelte'
-import resolve from '@rollup/plugin-node-resolve'
-import commonjs from '@rollup/plugin-commonjs'
-import livereload from 'rollup-plugin-livereload'
-import { terser } from 'rollup-plugin-terser'
-import postcss from 'rollup-plugin-postcss'
-import autoPreprocess from 'svelte-preprocess'
-import visualizer from 'rollup-plugin-visualizer'
-// import closureCompiler from '@ampproject/rollup-plugin-closure-compiler';
-// import gzip from 'rollup-plugin-gzip'
-// import zopfli from 'node-zopfli-es'
-// import brotli from "rollup-plugin-brotli"
-import copy from 'rollup-plugin-copy'
-import replace from '@rollup/plugin-replace'
-import json from '@rollup/plugin-json'
-import rimraf from 'rimraf'
-import strip from '@rollup/plugin-strip';
-import { getReplaceObj, serve, setupEnv } from './utils'
+import svelte from "rollup-plugin-svelte";
+import resolve from "@rollup/plugin-node-resolve";
+import commonjs from "@rollup/plugin-commonjs";
+import livereload from "rollup-plugin-livereload";
+import { terser } from "rollup-plugin-terser";
+import autoPreprocess from "svelte-preprocess";
+import visualizer from "rollup-plugin-visualizer";
+import copy from "rollup-plugin-copy";
+import replace from "@rollup/plugin-replace";
+import json from "@rollup/plugin-json";
+import postcss from "rollup-plugin-postcss";
+import del from "del";
+import strip from "@rollup/plugin-strip";
+import { getReplaceObj, serve, setupEnv } from "./utils";
+import pkg from "./package.json";
+import path from "path";
 
-
-const production = !process.env.ROLLUP_WATCH
-const env = production ? "production" : process.env.NODE_ENV;
+const production = !process.env.ROLLUP_WATCH;
+const env = production
+  ? "production"
+  : process.env.NODE_ENV
+  ? process.env.NODE_ENV
+  : "development";
 setupEnv({ env });
 
+del.sync("public");
 
-rimraf('public/css', () => console.log('removed CSSs'))
-rimraf('public/js', () => console.log('removed JSs'))
-rimraf('public/**.map', () => console.log('removed MAPs'))
-// rimraf('public/**.gz', () => console.log('removed GZs'))
-// rimraf('public/**.br', () => console.log('removed BRs'))
+function getOutputConfig(pkg, production) {
+  function manualChunks(id) {
+    if (id.includes("node_modules")) {
+      return "vendor";
+    }
+  }
 
+  let output = {
+    format: "esm",
+    dir: path.dirname(pkg.module),
+    entryFileNames: "[name].mjs",
+    chunkFileNames: "[name].mjs",
+    sourcemap: !production,
+    manualChunks,
+  };
 
-function getOutputConf() {
-	let output = {
-		format: 'es',
-		dir: 'public/js/module',
-		chunkFileNames: '[name].js',
-		sourcemap: !production,
-	}
+  if (production) {
+    output = [
+      output,
+      {
+        file: pkg.browser,
+        format: "iife",
+        name: "StrategyconGametable",
+        sourcemap: !production,
+        inlineDynamicImports: true,
+      },
+    ];
+  }
 
-	if (production) {
-		output = [
-			output,
-			{
-				format: 'system',
-				dir: 'public/js/nomodule',
-				chunkFileNames: '[name].js',
-				sourcemap: !production,
-			}
-		]
-	}
-
-	return output
+  return output;
 }
-
 
 export default {
-	input: 'src/main.js',
-	output: getOutputConf(),
+  input: "src/index.js",
 
-	plugins: [
-		svelte({
-			preprocess: autoPreprocess({
-				postcss: true
-			}),
+  output: getOutputConfig(pkg, production),
 
-			// enable run-time checks when not in production
-			dev: !production,
-			// we'll extract any component CSS out into
-			// a separate file - better for performance
-			css: css => {
-				css.write('public/css/components.css', !production)
-			}
-		}),
+  plugins: [
+    postcss({
+      sourceMap: !production,
+      minimize: production,
+      extract: "index.css",
+    }),
+    svelte({
+      preprocess: autoPreprocess({
+        postcss: true,
+      }),
 
-		// If you have external dependencies installed from
-		// npm, you'll most likely need these plugins. In
-		// some cases you'll need additional configuration -
-		// consult the documentation for details:
-		// https://github.com/rollup/plugins/tree/master/packages/commonjs
-		resolve({
-			browser: true,
-			dedupe: ['svelte']
-		}),
-		commonjs(),
+      emitCss: true,
 
-		postcss({
-			extract: 'public/css/vendor.css',
-			minimize: production,
-			sourceMap: !production,
-		}),
+      compilerOptions: {
+        // enable run-time checks when not in production
+        dev: !production,
 
-		replace(getReplaceObj({ env })),
+        css: false,
+      },
+    }),
 
-		json(),
+    // If you have external dependencies installed from
+    // npm, you'll most likely need these plugins. In
+    // some cases you'll need additional configuration -
+    // consult the documentation for details:
+    // https://github.com/rollup/plugins/tree/master/packages/commonjs
+    resolve({
+      browser: true,
+      dedupe: ["svelte"],
+    }),
+    commonjs(),
 
-		copy({
-			targets: [
-				{ src: 'static/*', dest: 'public/' }
-				// { src: 'node_modules/flag-icon-css/flags/4x3/**.svg', dest: 'public/flags' },
-			]
-		}),
+    replace(getReplaceObj({ env })),
 
-		production && strip(),
+    json(),
 
-		// closureCompiler({
-		// 	compilation_level: 'ADVANCED'
-		// }),
+    copy({
+      targets: (() => {
+        const targets = [
+          { src: "static/*", dest: "public" },
+          // { src: 'node_modules/flag-icon-css/flags/4x3/**.svg', dest: 'public/flags' },
+        ];
 
-		// In dev mode, call `npm run start` once
-		// the bundle has been generated
-		!production && serve(),
+        if (!production) {
+          targets.push({ src: "static-dev/*", dest: "public" });
+        }
 
-		// Watch the `public` directory and refresh the
-		// browser on changes when not in production
-		!production && livereload('public'),
+        return targets;
+      })(),
+    }),
 
-		// If we're building for production (npm run build
-		// instead of npm run dev), minify
-		production && terser(),
+    production && strip(),
 
-		visualizer({
-			filename: 'public/visualizer.html',
-			gzipSize: true,
-			brotliSize: true
-		}),
+    // In dev mode, call `npm run start` once
+    // the bundle has been generated
+    !production && serve(),
 
+    // Watch the `public` directory and refresh the
+    // browser on changes when not in production
+    !production && livereload("public"),
 
-		// Compresion
-		// production && gzip({
-		// 	customCompression: content => zopfli.deflateSync(Buffer.from(content)),
-		// }),
-		// production && brotli(),
-	],
-	manualChunks(id) {
-		if (id.includes('node_modules')) {
-			return 'vendor'
-		}
-	},
-	watch: {
-		clearScreen: false
-	}
-}
+    // If we're building for production (npm run build
+    // instead of npm run dev), minify
+    production && terser(),
+
+    !production &&
+      visualizer({
+        filename: "public/visualizer.html",
+        gzipSize: true,
+        brotliSize: true,
+      }),
+  ],
+  watch: {
+    clearScreen: false,
+  },
+};

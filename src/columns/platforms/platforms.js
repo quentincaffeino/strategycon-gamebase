@@ -1,120 +1,89 @@
-
-import windowsIcon from 'simple-icons/icons/windows'
-import linuxIcon from 'simple-icons/icons/linux'
-import appleIcon from 'simple-icons/icons/apple'
-import xboxIcon from 'simple-icons/icons/xbox'
-import playstation4Icon from 'simple-icons/icons/playstation4'
-import nintendoSwitchIcon from 'simple-icons/icons/nintendoswitch'
-import iosIcon from 'simple-icons/icons/ios'
-import androidIcon from 'simple-icons/icons/android'
+import windowsIcon from "simple-icons/icons/windows";
+import linuxIcon from "simple-icons/icons/linux";
+import appleIcon from "simple-icons/icons/apple";
+import xboxIcon from "simple-icons/icons/xbox";
+import playstation4Icon from "simple-icons/icons/playstation4";
+import nintendoSwitchIcon from "simple-icons/icons/nintendoswitch";
+import iosIcon from "simple-icons/icons/ios";
+import androidIcon from "simple-icons/icons/android";
 import { GlobeIcon } from "svelte-feather-icons";
 
-import { getValue } from '../../utils/getValue'
-import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
-
+import { getValue } from "../../utils/getValue";
+import { createElementFromHTMLString } from "../../utils/createElementFromHTMLString";
 
 // Case is ignored while searching for platform
 const platformsConfig = {
-  'windows': {
+  windows: {
     icon: windowsIcon,
-    aliases: [
-      'microsoft',
-      'виндовс',
-      'майкрософт'
-    ]
+    aliases: ["microsoft", "виндовс", "майкрософт"],
   },
-  'linux': {
+  linux: {
     icon: Object.assign({}, linuxIcon, {
-      hex: '000'
+      hex: "000",
     }),
-    aliases: [
-      'unix',
-      'юникс',
-      'линукс'
-    ]
+    aliases: ["unix", "юникс", "линукс"],
   },
-  'macos': {
+  macos: {
     icon: appleIcon,
-    aliases: [
-      'mac os',
-      'osx',
-      'мак'
-    ]
+    aliases: ["mac os", "osx", "мак"],
   },
-  'xbox one': {
+  "xbox one": {
     icon: xboxIcon,
-    aliases: [
-      'иксбокс'
-    ]
+    aliases: ["иксбокс"],
   },
-  'playstation 4': {
+  "playstation 4": {
     icon: playstation4Icon,
-    aliases: [
-      'ps',
-      'ps4'
-    ]
+    aliases: ["ps", "ps4"],
   },
-  'nintendo switch': {
+  "nintendo switch": {
     icon: nintendoSwitchIcon,
-    aliases: [
-      'свич'
-    ]
+    aliases: ["свич"],
   },
-  'ios': {
+  ios: {
     icon: iosIcon,
-    aliases: [
-      'iphone',
-      'айфон'
-    ]
+    aliases: ["iphone", "айфон"],
   },
-  'android': {
+  android: {
     icon: androidIcon,
-    aliases: [
-      'андроид'
-    ]
+    aliases: ["андроид"],
   },
-  'browser': {
+  browser: {
     icon: {
       svg: () => {
         const el = document.createElement("div");
         new GlobeIcon({ target: el });
         const icon = el.firstChild;
-        icon.removeAttribute('width')
-        icon.removeAttribute('height')
+        icon.removeAttribute("width");
+        icon.removeAttribute("height");
         return icon;
-      }
+      },
     },
-    aliases: [
-      'браузер'
-    ]
+    aliases: ["браузер"],
   },
-}
-
+};
 
 /**
  * @param {string} platform
  */
 function getAliasesFor(platform) {
-  let aliases = [
-    platform.replace(' ', '')
-  ]
+  let aliases = [platform.replace(" ", "")];
 
   if (platform in platformsConfig) {
-    const platformConfig = platformsConfig[platform]
-    if ('aliases' in platformConfig) {
-      aliases = aliases.concat(platformConfig.aliases)
+    const platformConfig = platformsConfig[platform];
+    if ("aliases" in platformConfig) {
+      aliases = aliases.concat(platformConfig.aliases);
     }
   }
 
-  return aliases
+  return aliases;
 }
 
 /**
- * @param {string} platform 
+ * @param {string} platform
  */
 function renderPlatformIcon(platform) {
   if (platform in platformsConfig) {
-    const icon = platformsConfig[platform].icon
+    const icon = platformsConfig[platform].icon;
     if (icon) {
       const platformIcon =
         typeof icon.svg === "string"
@@ -123,9 +92,9 @@ function renderPlatformIcon(platform) {
           ? icon.svg()
           : icon.svg;
       if (icon.hex) {
-        platformIcon.setAttribute('fill', '#' + icon.hex)
+        platformIcon.setAttribute("fill", "#" + icon.hex);
       }
-      return platformIcon
+      return platformIcon;
     }
   }
 }
@@ -136,9 +105,9 @@ function renderPlatformIcon(platform) {
  */
 function getQuickFilterText(params) {
   // TODO: think about enabling cache cause this is a very expencive operation which ran at each quick search update
-  const platforms = getValue(params)
+  const platforms = getValue(params);
   if (platforms) {
-    return platforms.join('')
+    return platforms.join("");
   }
 }
 
@@ -147,12 +116,14 @@ function getQuickFilterText(params) {
  * @returns {Object}
  */
 function valueGetter(params) {
-  const platformsStr = params.data.platforms || ''
-  let platforms = platformsStr.split(',').map(str => str.toLowerCase().trim())
+  const platformsStr = params.data.platforms || "";
+  let platforms = platformsStr
+    .split(",")
+    .map((str) => str.toLowerCase().trim());
   for (const platform of platforms) {
-    platforms = platforms.concat(getAliasesFor(platform))
+    platforms = platforms.concat(getAliasesFor(platform));
   }
-  return Array.from(new Set(platforms))
+  return Array.from(new Set(platforms));
 }
 
 /**
@@ -160,16 +131,16 @@ function valueGetter(params) {
  * @returns {any}
  */
 function cellRenderer(params) {
-  const platforms = getValue(params)
-  const el = params.eGridCell
+  const platforms = getValue(params);
+  const el = params.eGridCell;
 
   if (platforms.length) {
     for (const platform of platforms) {
-      const icon = renderPlatformIcon(platform)
-      if (icon) el.appendChild(icon)
+      const icon = renderPlatformIcon(platform);
+      if (icon) el.appendChild(icon);
     }
   } else {
-    return '—'
+    return "—";
   }
 }
 
@@ -178,5 +149,5 @@ export const field = {
   headerName: "Платформы",
   getQuickFilterText,
   valueGetter,
-  cellRenderer
-}
+  cellRenderer,
+};

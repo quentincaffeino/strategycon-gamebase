@@ -1,16 +1,13 @@
-
 import { AbstractRatingProvider } from "../../utils/AbstractRatingProvider";
 
-
 class OpencriticRatingProvider extends AbstractRatingProvider {
-
   /**
    * @private
    * @param {any} gameId
    * @returns {string}
    */
   gameIdToStoreKey(gameId) {
-    return "opencritic-rating-" + gameId
+    return "opencritic-rating-" + gameId;
   }
 
   /**
@@ -19,24 +16,23 @@ class OpencriticRatingProvider extends AbstractRatingProvider {
    * @returns {number}
    */
   getRatingFromResponseBody(responseBody) {
-    const rating = responseBody.topCriticScore
+    const rating = responseBody.topCriticScore;
 
     if (isNaN(rating)) {
-      throw "Rating is not a number"
+      throw "Rating is not a number";
     }
 
-    return rating
+    return rating;
   }
 
   /**
    * @private
    * @param {string} gameId
-   * @returns {string} 
+   * @returns {string}
    */
   transformGameIdToResourceUrl(gameId) {
-    return "https://api.opencritic.com/api/game/" + gameId
+    return "https://api.opencritic.com/api/game/" + gameId;
   }
-
 }
 
-export const opencriticRatingProvider = new OpencriticRatingProvider
+export const opencriticRatingProvider = new OpencriticRatingProvider();

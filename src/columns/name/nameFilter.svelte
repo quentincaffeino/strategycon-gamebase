@@ -6,4 +6,5 @@
 <input
   on:input={(event) => onInput(event.target.value)}
   class="ag-input-field-input ag-text-field-input"
-  type="text" />
+  type="text"
+/>

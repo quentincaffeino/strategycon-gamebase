@@ -6,7 +6,7 @@
   import { importExcel } from "./utils/importExcel";
   import { workbookParser } from "./utils/workbookParser";
 
-  const appContext = getContext('app');
+  const appContext = getContext("app");
 
   function initializeDatagrid(element) {
     // create the grid passing in the div to use together with the columns & data we want to use
@@ -30,10 +30,10 @@
   }
 </script>
 
+<div use:initializeDatagrid class="data-grid ag-theme-alpine" />
+
 <style>
   .data-grid {
     flex-grow: 1;
   }
 </style>
-
-<div use:initializeDatagrid class="data-grid ag-theme-alpine" />

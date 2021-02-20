@@ -1,14 +1,21 @@
+<script context="module">
+  class AppContext {
+    setGrid(grid) {
+      this.grid = grid;
+    }
+  }
+</script>
+
 <script>
   import { SearchIcon } from "svelte-feather-icons";
   import { setContext } from "svelte";
 
-  import { AppContext } from "./App";
   import { localStorageTest } from "./utils/localStorageTest";
 
   import Table from "./Table.svelte";
 
   const appContext = new AppContext();
-  setContext('app', appContext);
+  setContext("app", appContext);
 
   const warningKey = "games-table-dissmissed-warning";
   let isWarningShown = !(
@@ -27,6 +34,46 @@
     localStorageTest() && localStorage.setItem(warningKey, true);
   }
 </script>
+
+<div class="app-wrapper">
+  <div class="data-grid-wrapper">
+    <div class="data-grid-header">
+      <a href="https://strategycon.ru/" rel="noopener noreferrer">
+        <img
+          src="https://strategycon.ru/wp-content/uploads/2019/09/ava.png"
+          alt="Стратегикон"
+        />
+      </a>
+
+      <label for="searchBox" class="data-grid-search">
+        <SearchIcon size="1.5x" />
+
+        <input
+          type="text"
+          id="searchBox"
+          placeholder="Поиск..."
+          bind:value={searchBoxValue}
+        />
+      </label>
+    </div>
+
+    {#if isWarningShown}
+      <div class="data-grid-warning">
+        <div class="data-grid-warning-message">
+          Таблица находится в разработке
+        </div>
+        <input
+          type="button"
+          class="data-grid-warning-button"
+          value="&times;"
+          on:click={handleCloseWarningButtonClick}
+        />
+      </div>
+    {/if}
+
+    <Table />
+  </div>
+</div>
 
 <style>
   .app-wrapper {
@@ -78,41 +125,3 @@
     width: 50px;
   }
 </style>
-
-<div class="app-wrapper">
-  <div class="data-grid-wrapper">
-    <div class="data-grid-header">
-      <a href="https://strategycon.ru/" rel="noopener noreferrer">
-        <img
-          src="https://strategycon.ru/wp-content/uploads/2019/09/ava.png"
-          alt="Стратегикон" />
-      </a>
-
-      <label for="searchBox" class="data-grid-search">
-        <SearchIcon size="1.5x" />
-
-        <input
-          type="text"
-          id="searchBox"
-          placeholder="Поиск..."
-          bind:value={searchBoxValue} />
-      </label>
-    </div>
-
-    {#if isWarningShown}
-      <div class="data-grid-warning">
-        <div class="data-grid-warning-message">
-          Таблица находится в разработке
-        </div>
-        <input
-          type="button"
-          class="data-grid-warning-button"
-          value="&times;"
-          on:click={handleCloseWarningButtonClick} />
-      </div>
-    {/if}
-
-    <Table />
-
-  </div>
-</div>

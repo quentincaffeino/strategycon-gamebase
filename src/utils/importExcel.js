@@ -1,6 +1,4 @@
-
 // import XLSX from 'xlsx-style/xlsx.js';
-
 
 // XMLHttpRequest in promise format
 function makeRequest(method, url, success, error) {
@@ -32,9 +30,8 @@ function convertDataToWorkbook(data) {
   return XLSX.read(bstr, { type: "binary" });
 }
 
-
 /**
- * @param {string} url 
+ * @param {string} url
  * @returns {Workbook}
  */
 export function importExcel(url) {
@@ -49,5 +46,5 @@ export function importExcel(url) {
 
       reject
     );
-  })
+  });
 }

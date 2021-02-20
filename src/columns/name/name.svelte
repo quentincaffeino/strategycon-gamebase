@@ -13,12 +13,6 @@
   export let image;
 </script>
 
-<style>
-  img {
-    width: 100%;
-  }
-</style>
-
 {#if link}
   <a href={link} rel="noopener noreferrer" target="_blank">
     {#if image}
@@ -32,3 +26,9 @@
   {/if}
   {name}
 {/if}
+
+<style>
+  img {
+    width: 100%;
+  }
+</style>

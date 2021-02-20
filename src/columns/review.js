@@ -1,14 +1,12 @@
-
-import { getValue } from '../utils/getValue'
-
+import { getValue } from "../utils/getValue";
 
 function getRatingColor(rating) {
   if (rating < 5) {
-    return "red"
+    return "red";
   } else if (rating < 8) {
-    return "orange"
+    return "orange";
   } else {
-    return "green"
+    return "green";
   }
 }
 
@@ -17,9 +15,9 @@ function getRatingColor(rating) {
  * @returns {any}
  */
 function valueGetter(params) {
-  const value = params.data.review
+  const value = params.data.review;
   if (value) {
-    return value + " из 10"
+    return value + " из 10";
   }
 }
 
@@ -28,13 +26,13 @@ function valueGetter(params) {
  * @returns {any}
  */
 function cellRenderer(params) {
-  const rating = params.data.review
+  const rating = params.data.review;
 
   if (rating) {
-    const text = getValue(params)
-    const color = getRatingColor(rating)
+    const text = getValue(params);
+    const color = getRatingColor(rating);
 
-    const link = params.data.review_link
+    const link = params.data.review_link;
     if (link) {
       return (
         '<b><a href="' +
@@ -44,12 +42,12 @@ function cellRenderer(params) {
         '">' +
         text +
         "</a></b>"
-      )
+      );
     } else {
-      return '<b style="color:' + color + '">' + text + "</b>"
+      return '<b style="color:' + color + '">' + text + "</b>";
     }
   } else {
-    return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки</a>'
+    return '<a href="https://strategycon.ru/no-review/" rel="noopener noreferrer" target="_blank">Нет оценки</a>';
   }
 }
 
@@ -57,5 +55,5 @@ export const field = {
   field: "review",
   headerName: "Обзор",
   valueGetter,
-  cellRenderer
-}
+  cellRenderer,
+};

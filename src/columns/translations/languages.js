@@ -1,38 +1,35 @@
-
-import { languagesData } from './languagesData';
-
+import { languagesData } from "./languagesData";
 
 /**
  * @param {string} index
  * @retunrs {array}
  */
 function getLanguageByIndex(index) {
-  const result = []
+  const result = [];
 
   for (const language of Object.keys(languagesData.text)) {
-    const lang = languagesData.text[language]
+    const lang = languagesData.text[language];
     if (index < lang.length) {
-      result.push(lang[index])
+      result.push(lang[index]);
     }
   }
 
-  return result
+  return result;
 }
-
 
 /**
  * @param {string} code
  * @retunrs {array}
  */
 export function getLanguageFor(code) {
-  code = code.toLowerCase()
+  code = code.toLowerCase();
 
   for (const codeSystemName of Object.keys(languagesData.code)) {
-    const languageCodeSystem = languagesData.code[codeSystemName]
+    const languageCodeSystem = languagesData.code[codeSystemName];
 
     for (const codeName of Object.keys(languageCodeSystem)) {
       if (code === codeName) {
-        return getLanguageByIndex(languageCodeSystem[codeName])
+        return getLanguageByIndex(languageCodeSystem[codeName]);
       }
     }
   }

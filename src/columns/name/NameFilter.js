@@ -1,19 +1,17 @@
+import { initializeComponent } from "../../utils/svelte";
 
-import { initializeComponent } from "../../utils/svelte"
+import NameFilterComponent from "./nameFilter.svelte";
 
-import NameFilterComponent from './nameFilter.svelte'
-
-
-export function NameFilter() { }
+export function NameFilter() {}
 
 NameFilter.prototype.init = function (params) {
-  this.params = params
-  this.gui = document.createElement('i') // ag-grid requires getGui method to return element even thou it wouldn't use it
-}
+  this.params = params;
+  this.gui = document.createElement("i"); // ag-grid requires getGui method to return element even thou it wouldn't use it
+};
 
 NameFilter.prototype.getGui = function () {
-  return this.gui
-}
+  return this.gui;
+};
 
 NameFilter.prototype.doesFilterPass = function (params) {
   var valueGetter = this.params.valueGetter;
@@ -27,17 +25,15 @@ NameFilter.prototype.doesFilterPass = function (params) {
 };
 
 NameFilter.prototype.isFilterActive = function () {
-  return this.value !== null &&
-    this.value !== undefined &&
-    this.value !== ''
+  return this.value !== null && this.value !== undefined && this.value !== "";
 };
 
 NameFilter.prototype.onFloatingFilterChanged = function (type, value) {
-  console.log(type, value)
-  this.value = value
+  console.log(type, value);
+  this.value = value;
   this.params.filterChangedCallback();
-}
+};
 
 NameFilter.prototype.getModel = function () {
   return this.isFilterActive() ? this.value : null;
-}
+};

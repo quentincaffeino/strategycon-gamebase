@@ -1,7 +1,5 @@
-
-import path from 'path';
-import dotenv from 'dotenv';
-
+import path from "path";
+import dotenv from "dotenv";
 
 export function serve() {
   let server;
@@ -13,82 +11,85 @@ export function serve() {
   return {
     writeBundle() {
       if (server) return;
-      server = require('child_process').spawn('yarn', ['serve', '--dev'], {
-        stdio: ['ignore', 'inherit', 'inherit'],
-        shell: true
-      });
+      server = require("child_process").spawn(
+        "npm",
+        ["run", "serve", "--", "--dev", "--single", "--cors", "--host"],
+        {
+          stdio: ["ignore", "inherit", "inherit"],
+          shell: true,
+        }
+      );
 
-      process.on('SIGTERM', toExit);
-      process.on('exit', toExit);
-    }
+      process.on("SIGTERM", toExit);
+      process.on("exit", toExit);
+    },
   };
 }
 
-
 /**
  * Loads environment specific variables
- * @param {Object} config 
+ * @param {Object} config
  */
 export const setupEnv = (() => {
-  const DEVELOPMENT_ENV = 'development'
-  const PRODUCTION_ENV = 'production'
-  const DEFAULT_ENV = DEVELOPMENT_ENV
+  const DEVELOPMENT_ENV = "development";
+  const PRODUCTION_ENV = "production";
+  const DEFAULT_ENV = DEVELOPMENT_ENV;
 
   let dotEnv = {
-    [DEVELOPMENT_ENV]: null,
-    [PRODUCTION_ENV]: null,
+    [DEVELOPMENT_ENV]: undefined,
+    [PRODUCTION_ENV]: undefined,
   };
 
   /**
-   * @param {string} env 
+   * @param {string} env
    */
   function getEnvFilenameSuffix(env) {
-    let suffix = '.' + env;
+    let suffix = "." + env;
 
     if (env === DEVELOPMENT_ENV) {
-      suffix = ''
+      suffix = "";
     } else if (env === PRODUCTION_ENV) {
-      suffix = '.prod'
+      suffix = ".prod";
     }
 
-    return suffix
+    return suffix;
   }
 
   function loadEnv(config) {
-    const env = config.env
+    let env = config.env;
 
-    if (!config.env) return {};
+    if (!env) env = DEFAULT_ENV;
 
-    if (dotEnv[env]) return dotEnv[env]
+    if (dotEnv[env]) return dotEnv[env];
 
-    // Get 
-    const suffix = getEnvFilenameSuffix(env)
+    // Get
+    const suffix = getEnvFilenameSuffix(env);
     const localEnvConfig = dotenv.config({
-      path: path.resolve(process.cwd(), './.env' + suffix + '.local')
-    })
+      path: path.resolve(process.cwd(), "./.env" + suffix + ".local"),
+    });
+
     const envConfig = dotenv.config({
-      path: path.resolve(process.cwd(), './.env' + suffix)
-    })
-    dotEnv = Object.assign(
+      path: path.resolve(process.cwd(), "./.env" + suffix),
+    });
+
+    dotEnv[env] = Object.assign(
       {},
       env != DEVELOPMENT_ENV ? loadEnv({ env: DEVELOPMENT_ENV }) : {},
       envConfig.parsed,
       localEnvConfig.parsed
     );
 
-    return dotEnv
+    return dotEnv;
   }
 
   return loadEnv;
-})()
-
+})();
 
 export function getReplaceObj({ env }) {
-  const loadedEnv = setupEnv({ env })
+  const loadedEnv = setupEnv({ env });
   const replaceObj = Object.assign({}, loadedEnv, {
-    'process.env.NODE_ENV': JSON.stringify(env),
-  })
-
+    "process.env.NODE_ENV": JSON.stringify(env),
+  });
 
   return replaceObj;
 }

@@ -12,6 +12,36 @@
   }
 </script>
 
+{#if translations.length > 0}
+  {#if showAll}
+    {#each translations as translation}
+      <div class="badge">{translation}</div>
+      &MediumSpace;
+    {/each}
+
+    {#if more > 0}
+      <input
+        type="button"
+        class="badge button button-less"
+        value="-"
+        on:click|stopPropagation={handleToggleExpandClick}
+      />
+    {/if}
+  {:else}
+    {#each visibleTranslations as translation}
+      <div class="badge">{translation}</div>
+      &MediumSpace;
+    {/each}
+
+    <input
+      type="button"
+      class="badge button button-more"
+      value="+{more}"
+      on:click|stopPropagation={handleToggleExpandClick}
+    />
+  {/if}
+{:else}&mdash;{/if}
+
 <style>
   .badge {
     display: inline-block;
@@ -35,31 +65,3 @@
     padding: 0 6px 0 7px;
   }
 </style>
-
-{#if translations.length > 0}
-  {#if showAll}
-    {#each translations as translation}
-      <div class="badge">{translation}</div>
-      &MediumSpace;
-    {/each}
-
-    {#if more > 0}
-      <input
-        type="button"
-        class="badge button button-less"
-        value="-"
-        on:click|stopPropagation={handleToggleExpandClick} />
-    {/if}
-  {:else}
-    {#each visibleTranslations as translation}
-      <div class="badge">{translation}</div>
-      &MediumSpace;
-    {/each}
-
-    <input
-      type="button"
-      class="badge button button-more"
-      value="+{more}"
-      on:click|stopPropagation={handleToggleExpandClick} />
-  {/if}
-{:else}&mdash;{/if}
