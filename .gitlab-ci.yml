@@ -14,7 +14,6 @@ deploy:
     # Build project
     - yarn
     - yarn build
-    - rm ./public/visualizer.html
     - tree -h ./public
 
     # Push build to prod
