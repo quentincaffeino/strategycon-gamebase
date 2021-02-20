@@ -13,6 +13,7 @@ import { getValue } from '../../utils/getValue'
 import { createElementFromHTMLString } from '../../utils/createElementFromHTMLString'
 
 
+// Case is ignored while searching for platform
 const platformsConfig = {
   'windows': {
     icon: windowsIcon,
@@ -32,9 +33,10 @@ const platformsConfig = {
       'линукс'
     ]
   },
-  'mac os': {
+  'macos': {
     icon: appleIcon,
     aliases: [
+      'mac os',
       'osx',
       'мак'
     ]
