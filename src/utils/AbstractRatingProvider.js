@@ -79,6 +79,10 @@ export class AbstractRatingProvider {
     const resourceUrl = this.transformGameIdToResourceUrl(gameId);
     log("fetchRatingFor(gameId: %o) -> resourceUrl: %o", gameId, resourceUrl);
 
+    if (this.getDataCollectionKey() === "steam_rating") {
+      return Promise.reject(new SyntaxError("Temporary plug for steam rating"));
+    }
+
     return queue
       .fetch(resourceUrl)
       .then(this.getRatingFromResponseBody)
