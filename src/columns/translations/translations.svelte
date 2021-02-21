@@ -13,33 +13,35 @@
 </script>
 
 {#if translations.length > 0}
-  {#if showAll}
-    {#each translations as translation}
-      <div class="badge">{translation}</div>
-      &MediumSpace;
-    {/each}
+  <div class="overflow-auto">
+    {#if showAll}
+      {#each translations as translation}
+        <div class="badge">{translation}</div>
+        &MediumSpace;
+      {/each}
 
-    {#if more > 0}
+      {#if more > 0}
+        <input
+          type="button"
+          class="badge button button-less"
+          value="-"
+          on:click|stopPropagation={handleToggleExpandClick}
+        />
+      {/if}
+    {:else}
+      {#each visibleTranslations as translation}
+        <div class="badge">{translation}</div>
+        &MediumSpace;
+      {/each}
+
       <input
         type="button"
-        class="badge button button-less"
-        value="-"
+        class="badge button button-more"
+        value="+{more}"
         on:click|stopPropagation={handleToggleExpandClick}
       />
     {/if}
-  {:else}
-    {#each visibleTranslations as translation}
-      <div class="badge">{translation}</div>
-      &MediumSpace;
-    {/each}
-
-    <input
-      type="button"
-      class="badge button button-more"
-      value="+{more}"
-      on:click|stopPropagation={handleToggleExpandClick}
-    />
-  {/if}
+  </div>
 {:else}&mdash;{/if}
 
 <style>
@@ -63,5 +65,10 @@
 
   .button-less {
     padding: 0 6px 0 7px;
+  }
+
+  .overflow-auto {
+    max-height: 100%;
+    overflow: auto;
   }
 </style>
