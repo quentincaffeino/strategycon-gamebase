@@ -159,15 +159,18 @@ export class AbstractRatingProvider {
   /**
    * @private
    * @param {any} gameId
+   * @param {boolean} ignoreIsOld
    * @returns {object|null}
    */
-  _getValueFromDataCollection(gameId) {
+  _getValueFromDataCollection(gameId, ignoreIsOld = false) {
     const game = this._getItemFromDataCollection(gameId);
 
     if (game && game.rating != 0) {
       log("_getValueFromDataCollection(gameId: %o): game: %o", gameId, game);
 
-      if (game.modified_on && isOld(game.modified_on)) {
+      if (ignoreIsOld) {
+        log("_getValueFromDataCollection(gameId: %o): ignoring isOld");
+      } else if (!ignoreIsOld && game.modified_on && isOld(game.modified_on)) {
         log("_getValueFromDataCollection(gameId: %o): is old enough", gameId);
 
         return null;
@@ -324,7 +327,16 @@ export class AbstractRatingProvider {
 
           resolve(rating.value);
         })
-        .catch(reject);
+        .catch((e) => {
+          if (typeof e === "object" && e instanceof SyntaxError) {
+            try {
+              rating = this._getValueFromDataCollection(gameId, true);
+              if (rating) return resolve(rating);
+            } catch (_) {}
+          } else {
+            reject(e);
+          }
+        });
     });
   }
 }
