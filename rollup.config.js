@@ -25,42 +25,30 @@ setupEnv({ env });
 
 del.sync("public");
 
-function getOutputConfig(pkg, production) {
-  function manualChunks(id) {
-    if (id.includes("node_modules")) {
-      return "vendor";
-    }
-  }
-
-  let output = {
-    format: "esm",
-    dir: path.dirname(pkg.module),
-    entryFileNames: "[name].mjs",
-    chunkFileNames: "[name].mjs",
-    sourcemap: !production,
-    manualChunks,
-  };
-
-  if (production) {
-    output = [
-      output,
-      {
-        file: pkg.browser,
-        format: "iife",
-        name: "StrategyconGametable",
-        sourcemap: !production,
-        inlineDynamicImports: true,
-      },
-    ];
-  }
-
-  return output;
-}
-
 export default {
   input: "src/index.js",
 
-  output: getOutputConfig(pkg, production),
+  output: [
+    {
+      format: "esm",
+      dir: path.dirname(pkg.module),
+      entryFileNames: "[name].mjs",
+      chunkFileNames: "[name].mjs",
+      sourcemap: !production,
+      manualChunks(id) {
+        if (id.includes("node_modules")) {
+          return "vendor";
+        }
+      },
+    },
+    {
+      file: pkg.browser,
+      format: "iife",
+      name: "StrategyconGametable",
+      sourcemap: !production,
+      inlineDynamicImports: true,
+    },
+  ],
 
   plugins: [
     postcss({
