@@ -13,7 +13,7 @@
   export let props = {};
 
   // Steam
-  $: if (!props.steam_game_rating && props.steam_gameid) {
+  if (!props.steam_game_rating && props.steam_gameid) {
     getRatingFor("steam", props.steam_gameid)
       .catch(console.error)
       .then((rating) => {
