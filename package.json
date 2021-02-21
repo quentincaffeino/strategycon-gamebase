@@ -18,13 +18,9 @@
     "@rollup/plugin-node-resolve": "^11.2.0",
     "@rollup/plugin-replace": "^2.3.4",
     "@rollup/plugin-strip": "^2.0.0",
-    "ag-grid-community": "^25.1.0",
     "autoprefixer": "^10.2.4",
-    "country-language": "^0.1.7",
     "del": "^6.0.0",
     "dotenv": "^8.2.0",
-    "flag-icon-css": "^3.5.0",
-    "gzip": "^0.1.0",
     "normalize.css": "^8.0.1",
     "postcss": "^8",
     "postcss-import": "^14.0.0",
@@ -44,6 +40,7 @@
     "xlsx-style": "^0.8.13"
   },
   "dependencies": {
+    "ag-grid-community": "^25.1.0",
     "debug": "^4.3.1",
     "object-hash": "^2.1.1"
   }

@@ -90,7 +90,6 @@ export default {
       targets: (() => {
         const targets = [
           { src: "static/*", dest: "public" },
-          // { src: 'node_modules/flag-icon-css/flags/4x3/**.svg', dest: 'public/flags' },
         ];
 
         if (!production) {
