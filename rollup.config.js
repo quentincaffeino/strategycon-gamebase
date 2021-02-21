@@ -14,7 +14,6 @@ import strip from "@rollup/plugin-strip";
 import { getReplaceObj, serve, setupEnv } from "./utils";
 import pkg from "./package.json";
 import path from "path";
-import closureCompiler from "@ampproject/rollup-plugin-closure-compiler";
 
 const production = !process.env.ROLLUP_WATCH;
 const env = production
@@ -133,12 +132,7 @@ export default [
       inlineDynamicImports: true,
     },
 
-    plugins: getPlugins([
-      production &&
-        closureCompiler({
-          jscomp_off: ["undefinedVars", "undefinedNames"],
-        }),
-    ]),
+    plugins: getPlugins(),
     watch: {
       clearScreen: false,
     },
