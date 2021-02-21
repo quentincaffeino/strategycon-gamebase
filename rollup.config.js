@@ -14,6 +14,7 @@ import strip from "@rollup/plugin-strip";
 import { getReplaceObj, serve, setupEnv } from "./utils";
 import pkg from "./package.json";
 import path from "path";
+import closureCompiler from "@ampproject/rollup-plugin-closure-compiler";
 
 const production = !process.env.ROLLUP_WATCH;
 const env = production
@@ -25,32 +26,8 @@ setupEnv({ env });
 
 del.sync("public");
 
-export default {
-  input: "src/index.js",
-
-  output: [
-    {
-      format: "esm",
-      dir: path.dirname(pkg.module),
-      entryFileNames: "[name].mjs",
-      chunkFileNames: "[name].mjs",
-      sourcemap: !production,
-      manualChunks(id) {
-        if (id.includes("node_modules")) {
-          return "vendor";
-        }
-      },
-    },
-    {
-      file: pkg.browser,
-      format: "iife",
-      name: "StrategyconGametable",
-      sourcemap: !production,
-      inlineDynamicImports: true,
-    },
-  ],
-
-  plugins: [
+function getPlugins(extraPlugins = []) {
+  return [
     postcss({
       sourceMap: !production,
       minimize: production,
@@ -88,9 +65,7 @@ export default {
 
     copy({
       targets: (() => {
-        const targets = [
-          { src: "static/*", dest: "public" },
-        ];
+        const targets = [{ src: "static/*", dest: "public" }];
 
         if (!production) {
           targets.push({ src: "static-dev/*", dest: "public" });
@@ -120,8 +95,52 @@ export default {
         gzipSize: true,
         brotliSize: true,
       }),
-  ],
-  watch: {
-    clearScreen: false,
+
+    ...extraPlugins,
+  ];
+}
+
+export default [
+  {
+    input: "src/index.js",
+
+    output: {
+      format: "esm",
+      dir: path.dirname(pkg.module),
+      entryFileNames: "[name].mjs",
+      chunkFileNames: "[name].mjs",
+      sourcemap: !production,
+      manualChunks(id) {
+        if (id.includes("node_modules")) {
+          return "vendor";
+        }
+      },
+    },
+
+    plugins: getPlugins(),
+    watch: {
+      clearScreen: false,
+    },
   },
-};
+  {
+    input: "src/index.js",
+
+    output: {
+      file: pkg.browser,
+      format: "iife",
+      name: "StrategyconGametable",
+      sourcemap: !production,
+      inlineDynamicImports: true,
+    },
+
+    plugins: getPlugins([
+      production &&
+        closureCompiler({
+          jscomp_off: ["undefinedVars", "undefinedNames"],
+        }),
+    ]),
+    watch: {
+      clearScreen: false,
+    },
+  },
+];
