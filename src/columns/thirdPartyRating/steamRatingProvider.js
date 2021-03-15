@@ -49,11 +49,7 @@ class SteamRatingProvider extends AbstractRatingProvider {
    * @returns {string}
    */
   transformGameIdToResourceUrl(gameId) {
-    return (
-      "https://cors-anywhere.herokuapp.com/https://store.steampowered.com/appreviews/" +
-      gameId +
-      "?json=1&language=all"
-    );
+    return "https://strategycon.ru/gamebase/steam/index.php/" + gameId;
   }
 }
 
