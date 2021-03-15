@@ -47,17 +47,21 @@
   }
 </script>
 
-{#if props.steam_game_rating}
+{#if props.steam_gameid}
   <a
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://store.steampowered.com/app/{props.steam_game_rating.gameId}/"
+    href="https://store.steampowered.com/app/{props.steam_gameid}/"
   >
     Steam:
-    <span style="color:{props.steam_game_rating.color}">
-      {props.steam_game_rating.text}
-    </span>
+    {#if props.steam_game_rating}
+      <span style="color:{props.steam_game_rating.color}">
+        {props.steam_game_rating.text}
+      </span>
+    {:else}
+      <span> -</span>
+    {/if}
   </a>
 {/if}
 
