@@ -95,5 +95,5 @@ try {
 			throw new Exception("Unsupported method.");
 	}
 } catch (Exception $e) {
-	echo json_encode($e->getMessage());
+	echo json_encode(["error" => true, "message" => $e->getMessage()]);
 }
