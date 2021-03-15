@@ -1,6 +1,6 @@
 import debug from "debug";
 
-import { fetchQueue } from "./fetchQueue";
+import { createFetchQueue } from "./fetchQueue";
 import { localStorageTest } from "./localStorageTest";
 
 const log = debug("gamestable:AbstractRatingProvider");
@@ -10,7 +10,7 @@ const log = debug("gamestable:AbstractRatingProvider");
  */
 const cacheUpdateThreshold = 1;
 
-const queue = fetchQueue();
+const queue = createFetchQueue();
 
 export class AbstractRatingProvider {
   /**

@@ -9,7 +9,7 @@ const defaultProps = {
 /**
  * @param {Object} props
  */
-export const fetchQueue = (props) => {
+export const createFetchQueue = (props) => {
   props = Object.assign({}, defaultProps, props);
 
   /**
