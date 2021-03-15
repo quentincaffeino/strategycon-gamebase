@@ -7,7 +7,12 @@ if (getenv("APP_ENV") === 'development') {
 }
 
 define('STEAM_APPREVIEW_API_ENDPOINT', 'https://store.steampowered.com/appreviews');
-// define('CORS_ALLOWED_ORIGINS', ['localhost:8085']);
+if (getenv("APP_ENV") === 'development') {
+	define('CORS_ALLOWED_ORIGINS', ['http://localhost:8085']);
+} else {
+	define('CORS_ALLOWED_ORIGINS', ['https://strategycon.ru', 'http://strategycon.ru']);
+}
+define('CORS_ALLOWED_METHODS', ['GET', 'OPTIONS']);
 
 //send response header
 function responseHeader($code, $msg)
@@ -88,12 +93,29 @@ try {
 			}
 			break;
 
-			// case "OPTIONS":
-			// 	break;
+		case "OPTIONS":
+			if (!isset($_SERVER['HTTP_ORIGIN'])) {
+				error_log('Missing origin');
+				responseHeader(500, 'Missing origin');
+				return;
+			}
+
+			$httpOrigin = $_SERVER['HTTP_ORIGIN'];
+
+			if (!in_array($httpOrigin, CORS_ALLOWED_ORIGINS)) {
+				error_log('Wrong origin');
+				return;
+			}
+
+			header('Access-Control-Allow-Credentials: false');
+			header('Access-Control-Allow-Origin: ' . $httpOrigin);
+			header('Access-Control-Request-Method: ' . implode(', ', CORS_ALLOWED_METHODS));
+			break;
 
 		default:
 			throw new Exception("Unsupported method.");
 	}
 } catch (Exception $e) {
+	error_log($e->getMessage());
 	echo json_encode(["error" => true, "message" => $e->getMessage()]);
 }
