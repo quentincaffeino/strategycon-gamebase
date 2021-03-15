@@ -213,7 +213,7 @@ export class AbstractRatingProvider {
         rating
       );
 
-      queue.fetch(
+      fetch(
         "https://gametable.strategycon.ru/gamestable/items/" +
           this.getDataCollectionKey() +
           "/" +
@@ -236,7 +236,7 @@ export class AbstractRatingProvider {
         rating
       );
 
-      queue.fetch(
+      fetch(
         "https://gametable.strategycon.ru/gamestable/items/" +
           this.getDataCollectionKey(),
         {
