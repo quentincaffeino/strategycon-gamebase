@@ -10,10 +10,11 @@ deploy:
     # Install prereqs
     - apk --no-cache add tree
     - apk --no-cache add wput --repository=http://dl-cdn.alpinelinux.org/alpine/edge/testing
+    - npm install -g pnpm
 
     # Build project
-    - yarn
-    - yarn build
+    - pnpm
+    - pnpm build
     - tree -h ./public
 
     # Push build to prod
