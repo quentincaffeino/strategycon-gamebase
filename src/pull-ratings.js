@@ -34,4 +34,6 @@ async function pullSteamRatings() {
   }
 }
 
-pullSteamRatings();
+if (LOAD_RATINGS) {
+  pullSteamRatings();
+}
