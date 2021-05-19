@@ -7,8 +7,9 @@
 </script>
 
 <script>
-  import { SearchIcon } from "svelte-feather-icons";
   import { setContext } from "svelte";
+  import { SearchIcon } from "svelte-feather-icons";
+  import githubIcon from "simple-icons/icons/github";
 
   import { localStorageTest } from "./utils/localStorageTest";
 
@@ -55,6 +56,15 @@
           bind:value={searchBoxValue}
         />
       </label>
+
+      <a
+        href="https://github.com/quentincaffeino/strategycon-gamebase"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="github"
+      >
+        {@html githubIcon.svg}
+      </a>
     </div>
 
     {#if isWarningShown}
@@ -92,9 +102,15 @@
     display: flex;
     flex-direction: row;
   }
-  .data-grid-header img {
+  .data-grid-header img,
+  .data-grid-header .github {
     width: 50px;
+    height: 50px;
     float: left;
+  }
+
+  :global(.data-grid-header .github svg) {
+    transform: scale(0.4);
   }
 
   .data-grid-search {
