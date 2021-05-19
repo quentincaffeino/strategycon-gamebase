@@ -13,7 +13,7 @@ deploy:
     - npm install -g pnpm
 
     # Build project
-    - pnpm
+    - pnpm install
     - pnpm build
     - tree -h ./public
 
