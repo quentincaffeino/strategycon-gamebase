@@ -14,6 +14,7 @@
   import { localStorageTest } from "./utils/localStorageTest";
 
   import Table from "./Table.svelte";
+  import DatePicker from "./DatePicker.svelte";
 
   const appContext = new AppContext();
   setContext("app", appContext);
@@ -80,6 +81,8 @@
         />
       </div>
     {/if}
+
+    <DatePicker />
 
     <Table />
   </div>
