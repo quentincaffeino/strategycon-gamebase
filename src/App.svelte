@@ -34,6 +34,8 @@
     isWarningShown = false;
     localStorageTest() && localStorage.setItem(warningKey, true);
   }
+
+  const { isDatePickerShown } = appContext;
 </script>
 
 <div class="app-wrapper">
