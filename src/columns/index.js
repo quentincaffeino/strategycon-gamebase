@@ -1,5 +1,5 @@
 export * as name from "./name/name";
-export * as releaseDate from "./releaseDate/releaseDate";
+export * as releaseDate from "./releaseDate";
 export * as genre from "./genre";
 export * as timeType from "./timeType";
 export * as tags from "./tags";

@@ -14,7 +14,6 @@
   import { localStorageTest } from "./utils/localStorageTest";
 
   import Table from "./Table.svelte";
-  import DatePicker from "./DatePicker.svelte";
 
   const appContext = new AppContext();
   setContext("app", appContext);
@@ -35,6 +34,8 @@
     isWarningShown = false;
     localStorageTest() && localStorage.setItem(warningKey, true);
   }
+
+  const { isDatePickerShown } = appContext;
 </script>
 
 <div class="app-wrapper">
@@ -81,8 +82,6 @@
         />
       </div>
     {/if}
-
-    <DatePicker />
 
     <Table />
   </div>

@@ -25,9 +25,7 @@ export const gridOptions = {
     }
   },
 
-  components: {
-    ...columns.releaseDate.components,
-  },
+  components: {},
 
   rowData: [],
 };
