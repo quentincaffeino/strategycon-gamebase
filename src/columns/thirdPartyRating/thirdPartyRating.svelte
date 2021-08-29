@@ -95,7 +95,7 @@
     rel="noopener noreferrer"
     href="https://www.metacritic.com/game/{props.metacritic_game_rating
       .gameId[1]}/{props.metacritic_game_rating.gameId[0]
-      .replace(' ', '-')
+      .replaceAll(' ', '-')
       .toLowerCase()}/"
   >
     Metacritic:
