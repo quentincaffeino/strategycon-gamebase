@@ -3,6 +3,7 @@ import linuxIcon from "simple-icons/icons/linux";
 import appleIcon from "simple-icons/icons/apple";
 import xboxIcon from "simple-icons/icons/xbox";
 import playstation4Icon from "simple-icons/icons/playstation4";
+import playstation5Icon from "simple-icons/icons/playstation5";
 import nintendoSwitchIcon from "simple-icons/icons/nintendoswitch";
 import iosIcon from "simple-icons/icons/ios";
 import androidIcon from "simple-icons/icons/android";
@@ -27,13 +28,17 @@ const platformsConfig = {
     icon: appleIcon,
     aliases: ["mac os", "osx", "мак"],
   },
-  "xbox one": {
+  xbox: {
     icon: xboxIcon,
-    aliases: ["иксбокс"],
+    aliases: ["xbox one", "иксбокс", "xbox series x", "xbox series x|s"],
   },
   "playstation 4": {
     icon: playstation4Icon,
     aliases: ["ps", "ps4"],
+  },
+  "playstation 5": {
+    icon: playstation5Icon,
+    aliases: ["ps5"],
   },
   "nintendo switch": {
     icon: nintendoSwitchIcon,
