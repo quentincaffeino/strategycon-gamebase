@@ -25,7 +25,8 @@ export function workbookParser(workbook) {
       Q: "publisher_link",
       R: "opencritic_url",
       S: "metacritic_gameid",
-      T: "mode",
+      T: "metacritic_platform",
+      U: "mode",
     };
 
     let rowData = [];

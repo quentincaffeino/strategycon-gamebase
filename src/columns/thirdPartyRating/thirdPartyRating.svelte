@@ -94,7 +94,7 @@
     target="_blank"
     rel="noopener noreferrer"
     href="https://www.metacritic.com/game/{props.metacritic_game_rating
-      .gameId[1]}/{props.metacritic_game_rating.gameId[0]
+      .gameId.platform}/{props.metacritic_game_rating.gameId.id
       .replaceAll(' ', '-')
       .toLowerCase()}/"
   >

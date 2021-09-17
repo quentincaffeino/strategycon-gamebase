@@ -9,9 +9,9 @@ class MetacriticRatingProvider extends AbstractRatingProvider {
   gameIdToStoreKey(gameId) {
     return (
       "metacritic-rating-" +
-      gameId[0].replace(" ", "_").toLowerCase() +
+      gameId.id.replace(" ", "_").toLowerCase() +
       "-" +
-      gameId[1].toLowerCase()
+      gameId.platform.toLowerCase()
     );
   }
 
@@ -38,8 +38,8 @@ class MetacriticRatingProvider extends AbstractRatingProvider {
   transformGameIdToResourceUrl(gameId) {
     return (
       `https://metacritic.udevteam.com/rest/games/${encodeURI(
-        gameId[0]
-      )}?platform=` + encodeURI(gameId[1])
+        gameId.id
+      )}?platform=` + encodeURI(gameId.platform)
     );
   }
 }

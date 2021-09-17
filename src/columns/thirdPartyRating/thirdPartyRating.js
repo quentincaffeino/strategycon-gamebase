@@ -25,13 +25,10 @@ function valueGetter(params) {
   }
 
   // Metacritic
-  let metacritic_gameid = (params.data.metacritic_gameid || "")
-    .split(",")
-    .map((str) => str.trim())
-    .filter((str) => !!str);
-  if (!metacritic_gameid.length) {
-    metacritic_gameid = undefined;
-  }
+  let metacritic_gameid = {
+    id: (params.data.metacritic_gameid || "").trim(),
+    platform: (params.data.metacritic_platform || "pc").trim(),
+  };
 
   return {
     steam_gameid: params.data.steam_gameid,
