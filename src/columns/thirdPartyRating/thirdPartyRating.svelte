@@ -36,7 +36,6 @@
   if (
     !props.metacritic_game_rating &&
     props.metacritic_gameid &&
-    props.metacritic_gameid.length
   ) {
     getRatingFor("metacritic", props.metacritic_gameid)
       .catch(console.error)
