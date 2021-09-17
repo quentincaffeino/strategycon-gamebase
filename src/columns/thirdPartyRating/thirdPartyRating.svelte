@@ -33,10 +33,7 @@
   }
 
   // Metacritic
-  if (
-    !props.metacritic_game_rating &&
-    props.metacritic_gameid
-  ) {
+  if (!props.metacritic_game_rating && props.metacritic_gameid) {
     getRatingFor("metacritic", props.metacritic_gameid)
       .catch(console.error)
       .then((rating) => {
@@ -92,8 +89,8 @@
     class="line"
     target="_blank"
     rel="noopener noreferrer"
-    href="https://www.metacritic.com/game/{props.metacritic_game_rating
-      .gameId.platform}/{props.metacritic_game_rating.gameId.id
+    href="https://www.metacritic.com/game/{props.metacritic_game_rating.gameId
+      .platform}/{props.metacritic_game_rating.gameId.id
       .replaceAll(' ', '-')
       .toLowerCase()}/"
   >
