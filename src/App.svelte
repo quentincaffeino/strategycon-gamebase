@@ -85,9 +85,38 @@
 
     <Table />
   </div>
+  
+  //Footer start
+   <div class = "footer">
+  <a href="https://strategycon.ru/table-manual">Как пользоваться таблицей</a>
+  <a href="https://forms.yandex.ru/cloud/61993e15621050a32d5de178/">Предложить добавить игру</a>
+   <a href="https://github.com/quentincaffeino/strategycon-gamebase/issues">Помочь в разработке</a>
+  </div>
+  //Footer end
+  
 </div>
 
 <style>
+  //Footer styles start
+  .footer {
+  padding: 5px 10px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
+  background: #f8f8f8;
+  display: flex;
+  justify-content: space-around;
+  font-size: 90%;
+  text-align: center;
+  }
+  .footer a {
+  text-decoration: none;
+  color: #b18904;
+  }
+  .footer a:hover {
+  text-decoration: underline;
+  color: #b18904;
+  }
+  //Footer styles end
+  
   .app-wrapper {
     height: 100%;
     display: flex;
