@@ -86,7 +86,7 @@
     <Table />
   </div>
 
-  //Footer start
+  <!-- Footer start -->
   <div class="footer">
     <a href="https://strategycon.ru/table-manual">
       Как пользоваться таблицей
@@ -98,11 +98,11 @@
       Помочь в разработке
     </a>
   </div>
-  //Footer end
+  <!-- Footer end -->
 </div>
 
 <style>
-  //Footer styles start
+  /* Footer styles start */
   .footer {
     padding: 5px 10px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
@@ -121,7 +121,7 @@
     text-decoration: underline;
     color: #b18904;
   }
-  //Footer styles end
+  /* Footer styles end */
 
   .app-wrapper {
     height: 100%;
