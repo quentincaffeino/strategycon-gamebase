@@ -87,7 +87,7 @@
   </div>
 
   <!-- Footer start -->
-  <div class="footer">
+  <footer>
     <a href="https://strategycon.ru/table-manual">
       Как пользоваться таблицей
     </a>
@@ -97,13 +97,13 @@
     <a href="https://github.com/quentincaffeino/strategycon-gamebase/issues">
       Помочь в разработке
     </a>
-  </div>
+  </footer>
   <!-- Footer end -->
 </div>
 
 <style>
   /* Footer styles start */
-  .footer {
+  footer {
     padding: 5px 10px;
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto,
       Oxygen-Sans, Ubuntu, Cantarell, "Helvetica Neue", sans-serif;
@@ -113,11 +113,11 @@
     font-size: 90%;
     text-align: center;
   }
-  .footer a {
+  footer a {
     text-decoration: none;
     color: #b18904;
   }
-  .footer a:hover {
+  footer a:hover {
     text-decoration: underline;
     color: #b18904;
   }
