@@ -88,13 +88,25 @@
 
   <!-- Footer start -->
   <footer>
-    <a href="https://strategycon.ru/table-manual">
+    <a
+      target="_blank"
+      rel="nofollow noreferrer"
+      href="https://strategycon.ru/table-manual"
+    >
       Как пользоваться таблицей
     </a>
-    <a href="https://forms.yandex.ru/cloud/61993e15621050a32d5de178/">
+    <a
+      target="_blank"
+      rel="nofollow noreferrer"
+      href="https://forms.yandex.ru/cloud/61993e15621050a32d5de178/"
+    >
       Предложить добавить игру
     </a>
-    <a href="https://github.com/quentincaffeino/strategycon-gamebase/issues">
+    <a
+      target="_blank"
+      rel="nofollow noreferrer"
+      href="https://github.com/quentincaffeino/strategycon-gamebase/issues"
+    >
       Помочь в разработке
     </a>
   </footer>
