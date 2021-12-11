@@ -27,6 +27,11 @@ export function workbookParser(workbook) {
       S: "metacritic_gameid",
       T: "metacritic_platform",
       U: "mode",
+      X: "steam_link",
+      Y: "epicGames_link",
+      Z: "gog_link",
+      AA: "official_link",
+      AB: "wiki_link",
     };
 
     let rowData = [];
