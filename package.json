@@ -9,8 +9,7 @@
   "scripts": {
     "build": "rollup -c",
     "dev": "rollup -c -w",
-    "serve": "sirv public",
-    "preinstall": "npx only-allow pnpm"
+    "serve": "sirv public"
   },
   "devDependencies": {
     "@fullhuman/postcss-purgecss": "^4.0.3",
