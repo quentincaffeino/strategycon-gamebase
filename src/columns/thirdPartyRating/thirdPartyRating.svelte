@@ -92,6 +92,7 @@
     href="https://www.metacritic.com/game/{props.metacritic_game_rating.gameId
       .platform}/{props.metacritic_game_rating.gameId.id
       .replaceAll(' ', '-')
+      .replaceAll(':', '')
       .toLowerCase()}/"
   >
     Metacritic:
