@@ -35,4 +35,5 @@ export const field = {
   field: "moreDatailed",
   headerName: "Подробнее",
   cellRenderer,
+  filter: false,
 };
