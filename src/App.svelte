@@ -43,7 +43,7 @@
     <div class="data-grid-header">
       <a href="https://strategycon.ru/" rel="noopener noreferrer">
         <img
-          src="https://strategycon.ru/wp-content/uploads/2019/09/ava.png"
+          src="https://strategycon.ru/images/ava.jpg"
           alt="Стратегикон"
         />
       </a>
